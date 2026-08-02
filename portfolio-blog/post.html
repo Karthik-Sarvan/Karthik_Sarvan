@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post | Karthik Sarvan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], },
+                    colors: { dark: '#111111', gray: { 400: '#999999', 200: '#E5E5E5' } }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-dark font-sans antialiased selection:bg-dark selection:text-white overflow-x-hidden">
+    
+    <header class="w-full p-8 md:p-12 flex justify-between items-center bg-white border-b border-gray-200">
+        <a href="blog.html" class="text-sm font-medium tracking-tight text-gray-400 hover:text-dark transition flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotate-180">
+                <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back
+        </a>
+        <div class="text-sm font-bold tracking-tight">K.S.</div>
+    </header>
+
+    <main id="smooth-wrapper">
+        <div id="smooth-content">
+            <article class="max-w-3xl mx-auto px-8 py-24 min-h-screen">
+                
+                <header class="mb-20 reveal-fade">
+                    <p class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-6">Aug 2026</p>
+                    <h1 class="text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-8">Building a Bare-Metal Firmware testing framework</h1>
+                    <p class="text-xl text-gray-400 leading-relaxed font-light">Exploring how we constructed Mimic to emulate physical I2C and SPI sensors for testing control algorithms on the STM32 architecture without requiring the physical hardware.</p>
+                </header>
+
+                <div class="blog-content reveal-item">
+                    <p>When working on embedded systems, one of the biggest bottlenecks is often the hardware itself. You write the firmware, but to test it, you need the physical sensors, the actuators, and the exact PCB layout. If the hardware isn't ready, the firmware team is blocked.</p>
+                    
+                    <h2>The Problem with Physical Dependencies</h2>
+                    <p>At Aegion Dynamic Solutions, we faced this exact issue. We needed to test strict PID controllers and sensor fusion algorithms, but the custom PCB spins were delayed. We couldn't wait. We needed a way to trick the main MCU into thinking it was talking to real sensors over I2C and SPI.</p>
+
+                    <blockquote>
+                        "Hardware emulation is not just about mocking data; it's about mocking the physical timing and electrical behavior of a component."
+                    </blockquote>
+
+                    <h2>Building Mimic</h2>
+                    <p>We built <strong>Mimic</strong>. It's a framework where a secondary, cheap STM32 board acts as a proxy. We wrote bare-metal C code to configure the STM32's peripherals in <em>Slave Mode</em>.</p>
+                    
+                    <pre><code>// Pseudocode for configuring I2C Slave
+I2C_Slave_Init(I2C1, 0x68); // Emulate MPU6050 address
+while(1) {
+    if (I2C_Data_Requested()) {
+        I2C_Transmit(mock_sensor_data);
+    }
+}</code></pre>
+                    
+                    <p>By connecting this proxy board to our main MCU, we could feed it perfectly crafted edge-case data (like simulated sensor drift, extreme temperatures, or dropped packets) that are extremely difficult to reliably reproduce in the physical world.</p>
+
+                    <h3>Results</h3>
+                    <ul>
+                        <li>Reduced firmware testing bottlenecks by 60%.</li>
+                        <li>Caught 3 edge-case race conditions in the PID loop before hardware even arrived.</li>
+                        <li>Created a reusable Python bridge to inject mock data into the proxy board from a PC in real-time.</li>
+                    </ul>
+
+                    <p>Writing bare-metal firmware requires patience, but when you build tools to accelerate your own workflow, the return on investment is massive.</p>
+                </div>
+                
+                <div class="mt-32 pt-12 border-t border-gray-200">
+                    <p class="text-sm text-gray-400 font-medium">Written by Karthik Sarvan</p>
+                </div>
+            </article>
+
+            <footer class="py-12 px-8 md:px-12 bg-white flex justify-between items-center text-sm font-medium">
+                <div class="text-gray-400">&copy; 2026 Karthik Sarvan</div>
+                <a href="index.html" class="hover:text-gray-400 transition">Back to Home</a>
+            </footer>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

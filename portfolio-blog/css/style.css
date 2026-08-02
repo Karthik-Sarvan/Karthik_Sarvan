@@ -1,0 +1,44 @@
+/* Reset and basics */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Custom Selection */
+::selection {
+    background-color: #111111;
+    color: #ffffff;
+}
+
+/* Hide scrollbar for extreme minimalism */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; 
+}
+
+/* Base Blog Typography */
+.blog-content h1 { @apply text-4xl font-bold mb-8 text-dark tracking-tight leading-tight; }
+.blog-content h2 { @apply text-2xl font-bold mt-12 mb-6 text-dark tracking-tight; }
+.blog-content h3 { @apply text-xl font-medium mt-8 mb-4 text-dark; }
+.blog-content p { @apply mb-6 leading-relaxed text-[#444] text-lg; }
+.blog-content a { @apply text-dark underline decoration-gray-200 decoration-2 underline-offset-4 hover:decoration-dark transition-colors; }
+.blog-content ul { @apply list-disc list-outside ml-6 mb-8 text-[#444] text-lg space-y-2; }
+.blog-content blockquote { @apply border-l border-dark pl-6 italic text-gray-400 my-8 text-xl font-light; }
+.blog-content pre { @apply bg-[#f5f5f5] text-dark p-6 rounded-none overflow-x-auto mb-8 text-sm font-mono border border-gray-200; }
+.blog-content code { @apply bg-[#f5f5f5] text-dark px-1.5 py-0.5 text-sm font-mono border border-gray-200; }
+.blog-content img { @apply w-full mb-8 filter grayscale hover:grayscale-0 transition duration-700; }

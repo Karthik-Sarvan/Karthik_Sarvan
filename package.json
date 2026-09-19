@@ -1,0 +1,19 @@
+{
+  "name": "karthik-sarvan-site",
+  "version": "2.0.0",
+  "private": true,
+  "description": "SEO-optimised portfolio and journal for Karthik Sarvan — embedded systems & firmware engineer (karthik.qzz.io).",
+  "scripts": {
+    "build:css": "tailwindcss -i src/styles.css -o css/style.css -c tailwind.config.js --minify",
+    "watch:css": "tailwindcss -i src/styles.css -o css/style.css -c tailwind.config.js --watch",
+    "check": "python3 tools/check.py",
+    "smoke": "node tools/smoke.js",
+    "assets": "python3 tools/make-assets.py"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

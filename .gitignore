@@ -1,0 +1,15 @@
+# Node build tooling (the compiled css/style.css and vendored js are committed;
+# node_modules never is).
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+
+# Local scratch build dir used during development
+/.build/

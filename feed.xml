@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Karthik Sarvan — Journal</title>
+  <subtitle>Field notes on embedded firmware, hardware emulation and Rust tooling for EDA.</subtitle>
+  <link href="https://karthik.qzz.io/feed.xml" rel="self"/>
+  <link href="https://karthik.qzz.io/"/>
+  <id>https://karthik.qzz.io/</id>
+  <updated>2026-08-14T09:00:00+05:30</updated>
+  <rights>Copyright © 2026 Karthik Sarvan</rights>
+  <author>
+    <name>Karthik Sarvan</name>
+    <uri>https://karthik.qzz.io/</uri>
+    <email>karthiks1mail@gmail.com</email>
+  </author>
+  <category term="embedded systems"/>
+  <category term="firmware"/>
+  <category term="rust"/>
+
+  <entry>
+    <title>Building a Bare-Metal Firmware Testing Framework</title>
+    <link href="https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html"/>
+    <id>https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html</id>
+    <published>2026-08-14T09:00:00+05:30</published>
+    <updated>2026-08-14T09:00:00+05:30</updated>
+    <summary>How we built Mimic to emulate physical I2C and SPI sensors on an STM32 so PID control loops could be tested before the hardware existed.</summary>
+    <author><name>Karthik Sarvan</name></author>
+  </entry>
+
+  <entry>
+    <title>Safe Concurrency in Rust for EDA</title>
+    <link href="https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html"/>
+    <id>https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html</id>
+    <published>2026-07-09T09:00:00+05:30</published>
+    <updated>2026-07-09T09:00:00+05:30</updated>
+    <summary>How Rust's ownership model let us parse massive component datasheets concurrently without data races in the Pratibim core engine.</summary>
+    <author><name>Karthik Sarvan</name></author>
+  </entry>
+</feed>

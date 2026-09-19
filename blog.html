@@ -1,67 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journal | Karthik Sarvan</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], },
-                    colors: { dark: '#111111', gray: { 400: '#999999', 200: '#E5E5E5' } },
-                    fontSize: { 'display-sm': ['clamp(2rem, 5vw, 4rem)', { lineHeight: '1', letterSpacing: '-0.02em' }] }
-                }
+
+    <title>Journal — Writing on Embedded Firmware &amp; Rust | Karthik Sarvan</title>
+    <meta name="description" content="Writing by Karthik Sarvan on bare-metal firmware, STM32 hardware emulation, Rust concurrency for EDA tooling and embedded systems engineering.">
+    <meta name="author" content="Karthik Sarvan">
+    <meta name="keywords" content="Karthik Sarvan blog, Sarvan Karthik writing, embedded firmware blog, STM32 hardware emulation, Rust EDA, bare-metal firmware testing, embedded systems journal">
+    <link rel="canonical" href="https://karthik.qzz.io/blog.html">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="theme-color" content="#111111">
+    <meta name="color-scheme" content="light">
+
+    <!-- Verification codes (see SEO.md) -->
+    <!-- <meta name="google-site-verification" content="PASTE_GOOGLE_CODE_HERE"> -->
+    <!-- <meta name="msvalidate.01" content="PASTE_BING_CODE_HERE"> -->
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Karthik Sarvan">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:url" content="https://karthik.qzz.io/blog.html">
+    <meta property="og:title" content="Journal — Writing on Embedded Firmware &amp; Rust | Karthik Sarvan">
+    <meta property="og:description" content="Notes on bare-metal firmware testing, STM32 hardware emulation and safe concurrency in Rust, by embedded systems engineer Karthik Sarvan.">
+    <meta property="og:image" content="https://karthik.qzz.io/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Karthik Sarvan — Journal">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Karthik__Sarvan">
+    <meta name="twitter:creator" content="@Karthik__Sarvan">
+    <meta name="twitter:url" content="https://karthik.qzz.io/blog.html">
+    <meta name="twitter:title" content="Journal — Writing on Embedded Firmware &amp; Rust | Karthik Sarvan">
+    <meta name="twitter:description" content="Notes on bare-metal firmware testing, STM32 hardware emulation and safe concurrency in Rust.">
+    <meta name="twitter:image" content="https://karthik.qzz.io/assets/og-image.png">
+
+    <link rel="me" href="https://github.com/Karthik-Sarvan">
+    <link rel="me" href="https://www.linkedin.com/in/karthik-sarvan/">
+    <link rel="me" href="https://x.com/Karthik__Sarvan">
+    <link rel="me" href="https://www.instagram.com/_karthiksarvan/">
+
+    <link rel="alternate" type="application/atom+xml" title="Karthik Sarvan — Journal" href="https://karthik.qzz.io/feed.xml">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://karthik.qzz.io/sitemap.xml">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["CollectionPage", "Blog"],
+          "@id": "https://karthik.qzz.io/blog.html",
+          "url": "https://karthik.qzz.io/blog.html",
+          "name": "Journal — Karthik Sarvan",
+          "headline": "Writing on embedded firmware, Rust and hardware emulation",
+          "inLanguage": "en-IN",
+          "isPartOf": { "@id": "https://karthik.qzz.io/#website" },
+          "author": { "@id": "https://karthik.qzz.io/#karthik-sarvan" },
+          "publisher": { "@id": "https://karthik.qzz.io/#karthik-sarvan" },
+          "blogPost": [
+            {
+              "@type": "BlogPosting",
+              "@id": "https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html",
+              "url": "https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html",
+              "headline": "Building a Bare-Metal Firmware Testing Framework",
+              "datePublished": "2026-08-14",
+              "dateModified": "2026-08-14",
+              "author": { "@id": "https://karthik.qzz.io/#karthik-sarvan" },
+              "keywords": "bare-metal firmware, STM32, I2C slave, SPI slave, hardware emulation, PID control, Mimic"
+            },
+            {
+              "@type": "BlogPosting",
+              "@id": "https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html",
+              "url": "https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html",
+              "headline": "Safe Concurrency in Rust for EDA",
+              "datePublished": "2026-07-09",
+              "dateModified": "2026-07-09",
+              "author": { "@id": "https://karthik.qzz.io/#karthik-sarvan" },
+              "keywords": "Rust, ownership, Send, Sync, rayon, data races, EDA, component datasheets, Pratibim"
             }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://karthik.qzz.io/" },
+            { "@type": "ListItem", "position": 2, "name": "Journal", "item": "https://karthik.qzz.io/blog.html" }
+          ]
         }
+      ]
+    }
     </script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    </noscript>
 </head>
 <body class="bg-white text-dark font-sans antialiased selection:bg-dark selection:text-white overflow-x-hidden">
-    
+
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-dark focus:text-white focus:px-4 focus:py-2 focus:text-sm">Skip to content</a>
+
     <header class="w-full p-8 md:p-12 flex justify-between items-center bg-white">
-        <a href="index.html" class="text-sm font-bold tracking-tight">K.S.</a>
-        <nav class="flex gap-8 text-sm font-medium tracking-tight">
+        <a href="index.html" class="text-sm font-bold tracking-tight" title="Karthik Sarvan — Home" aria-label="Karthik Sarvan, home">K.S.</a>
+        <nav class="flex gap-8 text-sm font-medium tracking-tight" aria-label="Primary">
             <a href="index.html#work" class="hover:text-gray-400 transition-colors">Work</a>
             <a href="index.html#about" class="hover:text-gray-400 transition-colors">About</a>
-            <a href="blog.html" class="hover:text-gray-400 transition-colors">Journal</a>
+            <a href="blog.html" class="hover:text-gray-400 transition-colors" aria-current="page">Journal</a>
         </nav>
     </header>
 
-    <main id="smooth-wrapper">
+    <main id="main">
         <div id="smooth-content">
-            <section class="py-20 px-8 md:px-12 max-w-4xl mx-auto min-h-[70vh]">
-                <h1 class="text-display-sm font-bold tracking-tight mb-20 reveal-fade">Journal</h1>
-                
+            <section class="py-20 px-8 md:px-12 max-w-4xl mx-auto min-h-[70vh]" aria-labelledby="journal-heading">
+                <h1 id="journal-heading" class="text-display-sm font-bold tracking-tight mb-6 reveal-fade">Journal</h1>
+                <p class="text-lg text-gray-400 leading-relaxed max-w-2xl mb-20 reveal-fade">
+                    Field notes from <a href="index.html" class="text-dark underline decoration-gray-200 decoration-2 underline-offset-4 hover:decoration-dark transition-colors">Karthik Sarvan</a> on embedded firmware, hardware emulation and the Rust tooling behind modern EDA.
+                </p>
+
                 <div class="space-y-0 border-t border-gray-200">
-                    <!-- Static Post Template Link -->
-                    <a href="post.html" class="group block py-12 border-b border-gray-200 reveal-item cursor-default hover:pl-8 transition-all duration-500">
+                    <a href="posts/bare-metal-firmware-testing-with-mimic.html" class="group block py-12 border-b border-gray-200 reveal-item cursor-default hover:pl-8 transition-all duration-500">
                         <div class="flex justify-between items-start">
                             <div class="max-w-2xl">
-                                <p class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-4">Aug 2026</p>
-                                <h2 class="text-3xl font-medium tracking-tight mb-4">Building a Bare-Metal Firmware testing framework</h2>
+                                <p class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-4"><time datetime="2026-08-14">Aug 2026</time> · Firmware</p>
+                                <h2 class="text-3xl font-medium tracking-tight mb-4">Building a Bare-Metal Firmware Testing Framework</h2>
                                 <p class="text-gray-400 text-lg leading-relaxed line-clamp-2">Exploring how we constructed Mimic to emulate physical I2C and SPI sensors for testing control algorithms on the STM32 architecture without requiring the physical hardware.</p>
                             </div>
                             <div class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-dark group-hover:text-white transition duration-500">
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
                         </div>
                     </a>
 
-                    <!-- Example Post 2 -->
-                    <a href="post.html" class="group block py-12 border-b border-gray-200 reveal-item cursor-default hover:pl-8 transition-all duration-500">
+                    <a href="posts/safe-concurrency-in-rust-for-eda.html" class="group block py-12 border-b border-gray-200 reveal-item cursor-default hover:pl-8 transition-all duration-500">
                         <div class="flex justify-between items-start">
                             <div class="max-w-2xl">
-                                <p class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-4">Jul 2026</p>
+                                <p class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-4"><time datetime="2026-07-09">Jul 2026</time> · Rust</p>
                                 <h2 class="text-3xl font-medium tracking-tight mb-4">Safe Concurrency in Rust for EDA</h2>
                                 <p class="text-gray-400 text-lg leading-relaxed line-clamp-2">How Rust's ownership model allowed us to parse massive component datasheets concurrently without data races in the Pratibim core engine.</p>
                             </div>
                             <div class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-dark group-hover:text-white transition duration-500">
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
@@ -70,16 +160,22 @@
                 </div>
             </section>
 
-            <footer class="py-12 px-8 md:px-12 border-t border-gray-200 flex justify-between items-center text-sm font-medium mt-20">
+            <footer class="py-12 px-8 md:px-12 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-medium mt-20">
                 <div class="text-gray-400">&copy; 2026 Karthik Sarvan</div>
+                <ul class="flex gap-8 list-none p-0 m-0 uppercase tracking-widest" aria-label="Karthik Sarvan on social media">
+                    <li><a href="https://github.com/Karthik-Sarvan" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/karthik-sarvan/" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">LinkedIn</a></li>
+                    <li><a href="https://x.com/Karthik__Sarvan" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">X</a></li>
+                    <li><a href="https://www.instagram.com/_karthiksarvan/" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">Instagram</a></li>
+                </ul>
                 <a href="index.html" class="hover:text-gray-400 transition">Back to Home</a>
             </footer>
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/vendor/lenis.min.js" defer></script>
+    <script src="js/vendor/gsap.min.js" defer></script>
+    <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+    <script src="js/main.js" defer></script>
 </body>
 </html>

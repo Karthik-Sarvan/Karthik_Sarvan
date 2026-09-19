@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Safe Concurrency in Rust for EDA | Karthik Sarvan</title>
+    <meta name="description" content="How Rust ownership, Send/Sync and rayon let Karthik Sarvan parse huge component datasheets in parallel with zero data races in the Pratibim EDA engine.">
+    <meta name="author" content="Karthik Sarvan">
+    <meta name="keywords" content="Rust concurrency, Rust ownership, Send Sync bounds, rayon data parallelism, data race free EDA, electronic design automation Rust, component datasheet parser, Pratibim, Karthik Sarvan, Sarvan Karthik">
+    <link rel="canonical" href="https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="theme-color" content="#111111">
+    <meta name="color-scheme" content="light">
+    <meta name="article:published_time" content="2026-07-09T09:00:00+05:30">
+    <meta name="article:modified_time" content="2026-07-09T09:00:00+05:30">
+    <meta name="article:section" content="Rust">
+    <meta name="article:author" content="https://karthik.qzz.io/">
+
+    <!-- Verification codes (see SEO.md) -->
+    <!-- <meta name="google-site-verification" content="PASTE_GOOGLE_CODE_HERE"> -->
+    <!-- <meta name="msvalidate.01" content="PASTE_BING_CODE_HERE"> -->
+
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Karthik Sarvan">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:url" content="https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html">
+    <meta property="og:title" content="Safe Concurrency in Rust for EDA">
+    <meta property="og:description" content="Ownership, Send/Sync and rayon: how the Pratibim core engine parses component datasheets in parallel without a single data race.">
+    <meta property="og:image" content="https://karthik.qzz.io/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="article:published_time" content="2026-07-09T09:00:00+05:30">
+    <meta property="article:author" content="Karthik Sarvan">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Karthik__Sarvan">
+    <meta name="twitter:creator" content="@Karthik__Sarvan">
+    <meta name="twitter:title" content="Safe Concurrency in Rust for EDA">
+    <meta name="twitter:description" content="Ownership, Send/Sync and rayon: how the Pratibim core engine parses component datasheets in parallel without a single data race.">
+    <meta name="twitter:image" content="https://karthik.qzz.io/assets/og-image.png">
+
+    <link rel="me" href="https://github.com/Karthik-Sarvan">
+    <link rel="me" href="https://www.linkedin.com/in/karthik-sarvan/">
+    <link rel="me" href="https://x.com/Karthik__Sarvan">
+    <link rel="me" href="https://www.instagram.com/_karthiksarvan/">
+
+    <link rel="alternate" type="application/atom+xml" title="Karthik Sarvan — Journal" href="https://karthik.qzz.io/feed.xml">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://karthik.qzz.io/sitemap.xml">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["BlogPosting", "TechArticle"],
+          "@id": "https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html"
+          },
+          "url": "https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html",
+          "headline": "Safe Concurrency in Rust for EDA",
+          "description": "How Rust's ownership model let us parse massive component datasheets concurrently without data races in the Pratibim core engine.",
+          "inLanguage": "en-IN",
+          "datePublished": "2026-07-09T09:00:00+05:30",
+          "dateModified": "2026-07-09T09:00:00+05:30",
+          "wordCount": 900,
+          "articleSection": "Rust",
+          "keywords": "Rust, ownership, Send, Sync, rayon, data races, EDA, component datasheets, Pratibim",
+          "image": "https://karthik.qzz.io/assets/og-image.png",
+          "author": { "@id": "https://karthik.qzz.io/#karthik-sarvan" },
+          "publisher": {
+            "@type": "Person",
+            "name": "Karthik Sarvan",
+            "url": "https://karthik.qzz.io/"
+          },
+          "about": [
+            { "@type": "Thing", "name": "Rust programming language" },
+            { "@type": "Thing", "name": "Concurrency" },
+            { "@type": "Thing", "name": "Electronic design automation" }
+          ],
+          "isPartOf": { "@id": "https://karthik.qzz.io/blog.html" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://karthik.qzz.io/" },
+            { "@type": "ListItem", "position": 2, "name": "Journal", "item": "https://karthik.qzz.io/blog.html" },
+            { "@type": "ListItem", "position": 3, "name": "Safe Concurrency in Rust for EDA", "item": "https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html" }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    </noscript>
+</head>
+<body class="bg-white text-dark font-sans antialiased selection:bg-dark selection:text-white overflow-x-hidden">
+
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-dark focus:text-white focus:px-4 focus:py-2 focus:text-sm">Skip to content</a>
+
+    <header class="w-full p-8 md:p-12 flex justify-between items-center bg-white border-b border-gray-200">
+        <a href="../blog.html" class="text-sm font-medium tracking-tight text-gray-400 hover:text-dark transition flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotate-180" aria-hidden="true">
+                <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back
+        </a>
+        <a href="../index.html" class="text-sm font-bold tracking-tight" title="Karthik Sarvan — Home">K.S.</a>
+    </header>
+
+    <main id="main">
+        <div id="smooth-content">
+            <article class="max-w-3xl mx-auto px-8 py-24 min-h-screen" itemscope itemtype="https://schema.org/BlogPosting">
+
+                <header class="mb-20 reveal-fade">
+                    <p class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-6"><time datetime="2026-07-09" itemprop="datePublished">Jul 2026</time> · Rust · 6 min read</p>
+                    <h1 class="text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-8" itemprop="headline">Safe Concurrency in Rust for EDA</h1>
+                    <p class="text-xl text-gray-400 leading-relaxed font-light" itemprop="description">How Rust's ownership model allowed us to parse massive component datasheets concurrently without data races in the <strong>Pratibim</strong> core engine.</p>
+                </header>
+
+                <div class="blog-content reveal-item" itemprop="articleBody">
+                    <p>An EDA co-pilot lives or dies on how fast it can turn a messy, human-written datasheet into structured data. A single manufacturer can publish thousands of parts, each with a different table layout, a different unit convention and a different idea of what "typical" means. Ingesting that corpus serially was the first wall we hit at Pratibim.</p>
+
+                    <h2>Why the naive version breaks</h2>
+                    <p>The obvious design is a shared part index: one big map from part number to record, with worker threads reading PDFs and writing into it. In C++ or Java that design compiles, ships, and then corrupts itself under load — two workers rehash the same bucket, one write is lost, and the bug shows up three weeks later as a component with the wrong package footprint.</p>
+
+                    <p>Rust refuses to compile that program. A <code>Mutex&lt;HashMap&gt;</code> would work, but the borrow checker forced us to ask a better question first: <em>do these workers actually need to share anything?</em></p>
+
+                    <blockquote>
+                        "Fearless concurrency is not the absence of bugs. It is the compiler telling you, at 2 a.m., that your design was wrong before production tells you at 2 p.m."
+                    </blockquote>
+
+                    <h2>Send and Sync as a design review</h2>
+                    <p><code>Send</code> means a value can be moved to another thread; <code>Sync</code> means it can be shared by reference across threads. Those two marker traits are auto-derived, which means they act like a free, always-on design review of every type in the codebase.</p>
+
+                    <p>When our parser struct stopped being <code>Send</code>, the compiler was pointing at something real: we had stuffed a <code>Rc&lt;UnitTable&gt;</code> into it. <code>Rc</code> has a non-atomic reference count, so it is deliberately not thread-safe. Switching to <code>Arc</code> made it compile — but the better fix was to stop sharing the table at all and let each worker own a reference to an immutable, pre-built table behind a single <code>Arc</code> created once at startup.</p>
+
+                    <h3>Map, then reduce — never share-and-mutate</h3>
+                    <p>The final architecture is embarrassingly parallel, which is exactly what you want:</p>
+
+                    <pre><code>use rayon::prelude::*;
+
+// Each worker owns its inputs and returns an owned value.
+// Nothing is mutated in place, so no lock is ever taken.
+let parts: Vec&lt;Part&gt; = datasheets
+    .par_iter()                       // work-stealing thread pool
+    .filter_map(|doc| parse(doc).ok())
+    .collect();                       // reduce into one owned Vec
+
+// The index is built once, from owned data, then frozen.
+let index: HashMap&lt;PartNumber, Part&gt; =
+    parts.into_iter().map(|p| (p.pn.clone(), p)).collect();</code></pre>
+
+                    <p>Because <code>par_iter</code> hands each worker a <code>&amp;Datasheet</code> and takes back an owned <code>Part</code>, there is no shared mutable state anywhere in the hot path. <code>rayon</code> work-steals across cores, so a 400-page datasheet does not stall the whole batch.</p>
+
+                    <h3>The two places we did need atomics</h3>
+                    <ul>
+                        <li><strong>Progress reporting.</strong> A single <code>AtomicUsize</code> counter, incremented with <code>Relaxed</code> ordering — we only need eventual accuracy for a progress bar, not ordering guarantees.</li>
+                        <li><strong>Dedupe on part number.</strong> A <code>Mutex&lt;HashSet&lt;PartNumber&gt;&gt;</code> held for microseconds. Contention was measurable, so we sharded it by hash prefix and contention dropped to noise.</li>
+                    </ul>
+
+                    <h3>What it bought us</h3>
+                    <ul>
+                        <li>Corpus ingestion went from roughly linear-in-documents to bound by core count, with no locking in the parse path.</li>
+                        <li>Zero data races found in production — not because we were careful, but because the type system made the buggy version unrepresentable.</li>
+                        <li>Parser crashes became isolated: a panic in one worker takes down one task, and <code>Result</code> propagation means a malformed datasheet is logged and skipped instead of poisoning the index.</li>
+                    </ul>
+
+                    <p>The lesson generalises well beyond EDA. When a language makes you prove that your threads do not share mutable state, you end up writing the architecture you should have written anyway — and it happens to be the fast one. For the firmware side of the same problem, see <a href="bare-metal-firmware-testing-with-mimic.html">how we test control loops before the hardware exists</a>.</p>
+                </div>
+
+                <div class="mt-32 pt-12 border-t border-gray-200 flex flex-col md:flex-row justify-between gap-8">
+                    <div>
+                        <p class="text-sm text-gray-400 font-medium">Written by</p>
+                        <a href="../index.html" class="text-lg font-bold tracking-tight hover:text-gray-400 transition" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                            <span itemprop="name">Karthik Sarvan</span>
+                        </a>
+                        <p class="text-sm text-gray-400 mt-1">Embedded systems &amp; firmware engineer · Visakhapatnam, India</p>
+                    </div>
+                    <nav class="text-sm font-bold uppercase tracking-widest" aria-label="More writing">
+                        <a href="bare-metal-firmware-testing-with-mimic.html" class="hover:text-gray-400 transition">← Prev: Bare-Metal Firmware Testing</a>
+                    </nav>
+                </div>
+            </article>
+
+            <footer class="py-12 px-8 md:px-12 bg-white border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-medium">
+                <div class="text-gray-400">&copy; 2026 Karthik Sarvan</div>
+                <ul class="flex gap-8 list-none p-0 m-0 uppercase tracking-widest" aria-label="Karthik Sarvan on social media">
+                    <li><a href="https://github.com/Karthik-Sarvan" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/karthik-sarvan/" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">LinkedIn</a></li>
+                    <li><a href="https://x.com/Karthik__Sarvan" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">X</a></li>
+                    <li><a href="https://www.instagram.com/_karthiksarvan/" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">Instagram</a></li>
+                </ul>
+                <a href="../blog.html" class="hover:text-gray-400 transition">All writing</a>
+            </footer>
+        </div>
+    </main>
+
+    <script src="../js/vendor/lenis.min.js" defer></script>
+    <script src="../js/vendor/gsap.min.js" defer></script>
+    <script src="../js/vendor/ScrollTrigger.min.js" defer></script>
+    <script src="../js/main.js" defer></script>
+</body>
+</html>

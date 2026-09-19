@@ -1,0 +1,35 @@
+{
+  "name": "Karthik Sarvan — Embedded Systems & Firmware Engineer",
+  "short_name": "Karthik Sarvan",
+  "description": "Portfolio and journal of Karthik Sarvan, embedded systems and firmware engineer in Visakhapatnam, India.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "minimal-ui",
+  "background_color": "#ffffff",
+  "theme_color": "#111111",
+  "lang": "en-IN",
+  "categories": ["portfolio", "embedded systems", "firmware", "engineering"],
+  "icons": [
+    {
+      "src": "assets/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

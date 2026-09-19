@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Building a Bare-Metal Firmware Testing Framework | Karthik Sarvan</title>
+    <meta name="description" content="How Karthik Sarvan built Mimic, a bare-metal STM32 framework emulating physical I2C &amp; SPI sensors to test firmware and PID loops before hardware arrives.">
+    <meta name="author" content="Karthik Sarvan">
+    <meta name="keywords" content="bare-metal firmware testing, STM32 hardware emulation, I2C slave emulation, SPI slave emulation, firmware test framework, PID control testing, Mimic, Karthik Sarvan, Sarvan Karthik">
+    <link rel="canonical" href="https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="theme-color" content="#111111">
+    <meta name="color-scheme" content="light">
+    <meta name="article:published_time" content="2026-08-14T09:00:00+05:30">
+    <meta name="article:modified_time" content="2026-08-14T09:00:00+05:30">
+    <meta name="article:section" content="Firmware">
+    <meta name="article:author" content="https://karthik.qzz.io/">
+
+    <!-- Verification codes (see SEO.md) -->
+    <!-- <meta name="google-site-verification" content="PASTE_GOOGLE_CODE_HERE"> -->
+    <!-- <meta name="msvalidate.01" content="PASTE_BING_CODE_HERE"> -->
+
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Karthik Sarvan">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:url" content="https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html">
+    <meta property="og:title" content="Building a Bare-Metal Firmware Testing Framework">
+    <meta property="og:description" content="Emulating physical I2C and SPI sensors on an STM32 so control algorithms can be tested before the PCB exists.">
+    <meta property="og:image" content="https://karthik.qzz.io/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="article:published_time" content="2026-08-14T09:00:00+05:30">
+    <meta property="article:author" content="Karthik Sarvan">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Karthik__Sarvan">
+    <meta name="twitter:creator" content="@Karthik__Sarvan">
+    <meta name="twitter:title" content="Building a Bare-Metal Firmware Testing Framework">
+    <meta name="twitter:description" content="Emulating physical I2C and SPI sensors on an STM32 so control algorithms can be tested before the PCB exists.">
+    <meta name="twitter:image" content="https://karthik.qzz.io/assets/og-image.png">
+
+    <link rel="me" href="https://github.com/Karthik-Sarvan">
+    <link rel="me" href="https://www.linkedin.com/in/karthik-sarvan/">
+    <link rel="me" href="https://x.com/Karthik__Sarvan">
+    <link rel="me" href="https://www.instagram.com/_karthiksarvan/">
+
+    <link rel="alternate" type="application/atom+xml" title="Karthik Sarvan — Journal" href="https://karthik.qzz.io/feed.xml">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://karthik.qzz.io/sitemap.xml">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["BlogPosting", "TechArticle"],
+          "@id": "https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html"
+          },
+          "url": "https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html",
+          "headline": "Building a Bare-Metal Firmware Testing Framework",
+          "description": "How we built Mimic to emulate physical I2C and SPI sensors on an STM32 so PID control loops could be tested before the hardware existed.",
+          "inLanguage": "en-IN",
+          "datePublished": "2026-08-14T09:00:00+05:30",
+          "dateModified": "2026-08-14T09:00:00+05:30",
+          "wordCount": 720,
+          "articleSection": "Firmware",
+          "keywords": "bare-metal firmware, STM32, I2C slave, SPI slave, hardware emulation, PID control, Mimic",
+          "image": "https://karthik.qzz.io/assets/og-image.png",
+          "author": { "@id": "https://karthik.qzz.io/#karthik-sarvan" },
+          "publisher": {
+            "@type": "Person",
+            "name": "Karthik Sarvan",
+            "url": "https://karthik.qzz.io/"
+          },
+          "about": [
+            { "@type": "Thing", "name": "Bare-metal firmware" },
+            { "@type": "Thing", "name": "STM32 microcontroller" },
+            { "@type": "Thing", "name": "Hardware emulation" },
+            { "@type": "Thing", "name": "PID control" }
+          ],
+          "isPartOf": { "@id": "https://karthik.qzz.io/blog.html" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://karthik.qzz.io/" },
+            { "@type": "ListItem", "position": 2, "name": "Journal", "item": "https://karthik.qzz.io/blog.html" },
+            { "@type": "ListItem", "position": 3, "name": "Building a Bare-Metal Firmware Testing Framework", "item": "https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html" }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    </noscript>
+</head>
+<body class="bg-white text-dark font-sans antialiased selection:bg-dark selection:text-white overflow-x-hidden">
+
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-dark focus:text-white focus:px-4 focus:py-2 focus:text-sm">Skip to content</a>
+
+    <header class="w-full p-8 md:p-12 flex justify-between items-center bg-white border-b border-gray-200">
+        <a href="../blog.html" class="text-sm font-medium tracking-tight text-gray-400 hover:text-dark transition flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotate-180" aria-hidden="true">
+                <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back
+        </a>
+        <a href="../index.html" class="text-sm font-bold tracking-tight" title="Karthik Sarvan — Home">K.S.</a>
+    </header>
+
+    <main id="main">
+        <div id="smooth-content">
+            <article class="max-w-3xl mx-auto px-8 py-24 min-h-screen" itemscope itemtype="https://schema.org/BlogPosting">
+
+                <header class="mb-20 reveal-fade">
+                    <p class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-6"><time datetime="2026-08-14" itemprop="datePublished">Aug 2026</time> · Firmware · 5 min read</p>
+                    <h1 class="text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-8" itemprop="headline">Building a Bare-Metal Firmware Testing Framework</h1>
+                    <p class="text-xl text-gray-400 leading-relaxed font-light" itemprop="description">Exploring how we constructed <strong>Mimic</strong> to emulate physical I2C and SPI sensors for testing control algorithms on the STM32 architecture without requiring the physical hardware.</p>
+                </header>
+
+                <div class="blog-content reveal-item" itemprop="articleBody">
+                    <p>When working on embedded systems, one of the biggest bottlenecks is often the hardware itself. You write the firmware, but to test it, you need the physical sensors, the actuators, and the exact PCB layout. If the hardware isn't ready, the firmware team is blocked.</p>
+
+                    <h2>The Problem with Physical Dependencies</h2>
+                    <p>At Aegion Dynamic Solutions, we faced this exact issue. We needed to test strict PID controllers and sensor fusion algorithms, but the custom PCB spins were delayed. We couldn't wait. We needed a way to trick the main MCU into thinking it was talking to real sensors over I2C and SPI.</p>
+
+                    <blockquote>
+                        "Hardware emulation is not just about mocking data; it's about mocking the physical timing and electrical behavior of a component."
+                    </blockquote>
+
+                    <h2>Building Mimic</h2>
+                    <p>We built <strong>Mimic</strong>. It's a framework where a secondary, cheap STM32 board acts as a proxy. We wrote bare-metal C code to configure the STM32's peripherals in <em>Slave Mode</em>.</p>
+
+                    <pre><code>// Pseudocode for configuring I2C Slave
+I2C_Slave_Init(I2C1, 0x68); // Emulate MPU6050 address
+while(1) {
+    if (I2C_Data_Requested()) {
+        I2C_Transmit(mock_sensor_data);
+    }
+}</code></pre>
+
+                    <p>By connecting this proxy board to our main MCU, we could feed it perfectly crafted edge-case data (like simulated sensor drift, extreme temperatures, or dropped packets) that are extremely difficult to reliably reproduce in the physical world.</p>
+
+                    <h3>Results</h3>
+                    <ul>
+                        <li>Reduced firmware testing bottlenecks by 60%.</li>
+                        <li>Caught 3 edge-case race conditions in the PID loop before hardware even arrived.</li>
+                        <li>Created a reusable Python bridge to inject mock data into the proxy board in real-time from a PC.</li>
+                    </ul>
+
+                    <p>Writing bare-metal firmware requires patience, but when you build tools to accelerate your own workflow, the return on investment is massive.</p>
+
+                    <h3>What I'd do differently</h3>
+                    <p>The first version of Mimic hard-coded every device profile. The second version moved profiles into a plain data table that the Python bridge uploads at runtime, which meant adding a new emulated part went from a firmware rebuild to a config change. If you are starting a similar framework, make the device model data before you make it code — it is the difference between a demo and a tool your team will actually keep using.</p>
+                </div>
+
+                <div class="mt-32 pt-12 border-t border-gray-200 flex flex-col md:flex-row justify-between gap-8">
+                    <div>
+                        <p class="text-sm text-gray-400 font-medium">Written by</p>
+                        <a href="../index.html" class="text-lg font-bold tracking-tight hover:text-gray-400 transition" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                            <span itemprop="name">Karthik Sarvan</span>
+                        </a>
+                        <p class="text-sm text-gray-400 mt-1">Embedded systems &amp; firmware engineer · Visakhapatnam, India</p>
+                    </div>
+                    <nav class="text-sm font-bold uppercase tracking-widest" aria-label="More writing">
+                        <a href="safe-concurrency-in-rust-for-eda.html" class="hover:text-gray-400 transition">Next: Safe Concurrency in Rust for EDA →</a>
+                    </nav>
+                </div>
+            </article>
+
+            <footer class="py-12 px-8 md:px-12 bg-white border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-medium">
+                <div class="text-gray-400">&copy; 2026 Karthik Sarvan</div>
+                <ul class="flex gap-8 list-none p-0 m-0 uppercase tracking-widest" aria-label="Karthik Sarvan on social media">
+                    <li><a href="https://github.com/Karthik-Sarvan" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/karthik-sarvan/" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">LinkedIn</a></li>
+                    <li><a href="https://x.com/Karthik__Sarvan" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">X</a></li>
+                    <li><a href="https://www.instagram.com/_karthiksarvan/" target="_blank" rel="noopener me" class="hover:text-gray-400 transition">Instagram</a></li>
+                </ul>
+                <a href="../blog.html" class="hover:text-gray-400 transition">All writing</a>
+            </footer>
+        </div>
+    </main>
+
+    <script src="../js/vendor/lenis.min.js" defer></script>
+    <script src="../js/vendor/gsap.min.js" defer></script>
+    <script src="../js/vendor/ScrollTrigger.min.js" defer></script>
+    <script src="../js/main.js" defer></script>
+</body>
+</html>

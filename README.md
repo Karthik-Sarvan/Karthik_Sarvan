@@ -1,60 +1,35 @@
-# Karthik Sarvan — Embedded Systems & Firmware Engineer
+# Karthik Sarvan — Linux Graphics & Kernel Engineer
 
 > **karthik.qzz.io** · Visakhapatnam, Andhra Pradesh, India
-> Also indexed as *Sarvan Karthik*.
+> Upstream Mesa 3D Contributor · Linux DRM/KMS Subsystem · Mimic Hardware Maintainer
 
-Karthik Sarvan is an Electronics & Communication engineering student and
-**embedded systems / firmware engineer** writing bare-metal firmware in **C**
-and **Rust** for **STM32** microcontrollers, designing **custom PCBs**, and
-building **PID control systems**. He also ships full-stack MERN applications.
+Interactive 3D WebGL portfolio and bare-metal systems showcase for **Karthik Sarvan**.
+Featuring a controllable GPU Rover on a silicon substrate, 3D extruded GitHub/GitLab commit canyon (2,742+ commits in 2026), live GLSL shader telemetry, and an interactive kernel console.
 
-## Experience
+## Focus Areas
 
-| Role | Company | Period |
-| --- | --- | --- |
-| Embedded Intern | Aegion Dynamic Solutions | 2025 — present |
-| MERN Stack Developer | Reaidy.io | 2024 — 2025 |
-| React Intern | Spotmies LLP | 2023 |
+- **Mesa 3D Graphics Stack**: Lavapipe Vulkan software rasterizer (MR !45614), Zink OpenGL-over-Vulkan HUD instrumentation, NIR compiler optimization passes, Gallium3D.
+- **Linux Kernel DRM / KMS**: Direct Rendering Manager, Atomic Modesetting commits, GEM memory buffer management, DMA-BUF zero-copy sharing, timeline syncobj (`wp_linux_drm_syncobj_v1`).
+- **Mimic Hardware Emulation**: Maintainer of [mimic.aegiondynamic.com](https://mimic.aegiondynamic.com) — bare-metal STM32 hardware-in-the-loop test framework proxying physical I2C/SPI sensors.
+- **Languages & Tooling**: Bare-metal C, C++, Rust, Python, Assembly, Vulkan, OpenGL, GLSL, Zephyr RTOS, IGT GPU Tools.
 
-## Selected work
+## Connect & Upstream Profiles
 
-- **[Pratibim](https://pratibim.tech)** — AI-driven EDA co-pilot for hardware engineers; core engine in Rust.
-- **[Mimic](https://mimic.aegiondynamic.com)** — hardware emulation framework proxying physical I2C/SPI sensors on an STM32.
-- **Relay Test System** — portable automated relay diagnostics (PCB + C).
-- **Defense project** — high-reliability firmware & strict PID controllers.
-
-## Writing
-
-- [Building a Bare-Metal Firmware Testing Framework](https://karthik.qzz.io/posts/bare-metal-firmware-testing-with-mimic.html)
-- [Safe Concurrency in Rust for EDA](https://karthik.qzz.io/posts/safe-concurrency-in-rust-for-eda.html)
-
-## Skills
-
-Bare-metal firmware · C / C++ · Rust · Python · JavaScript · STM32 architecture ·
-PCB design · I2C / SPI · PID control · React & Node
-
-## Connect
-
-- Website: <https://karthik.qzz.io>
+- Portfolio: <https://karthik.qzz.io>
+- FreeDesktop GitLab: [@karthik-sarvan](https://gitlab.freedesktop.org/karthik-sarvan)
 - GitHub: [@Karthik-Sarvan](https://github.com/Karthik-Sarvan)
+- Hardware Emulation: <https://mimic.aegiondynamic.com>
 - LinkedIn: [karthik-sarvan](https://www.linkedin.com/in/karthik-sarvan/)
 - X: [@Karthik__Sarvan](https://x.com/Karthik__Sarvan)
-- Instagram: [@_karthiksarvan](https://www.instagram.com/_karthiksarvan/)
 - Email: <karthiks1mail@gmail.com>
 
 ---
 
-## Developing this site
+## Architecture & Verification
 
-Static site — no framework. Styles are compiled Tailwind; see `tailwind.config.js`.
-
-```bash
-npm install
-npm run build:css   # rebuild css/style.css after editing markup or src/styles.css
-npm run check       # static SEO/health checks (canonicals, sitemaps, JSON-LD, assets)
-npm run smoke       # jsdom runtime smoke test of every page
-npm run assets      # regenerate favicon / og-image bitmaps
-```
-
-For the search-engine promotion plan (Search Console, Bing Webmaster Tools,
-IndexNow, backlinks), read **[SEO.md](SEO.md)**.
+- 100% self-contained WebGL & Three.js engine (vendored locally, zero CDN lag).
+- Procedural audio synthesizer via Web Audio API.
+- Fully passes static SEO, canonical, and health tests:
+  ```bash
+  python3 tools/check.py
+  ```

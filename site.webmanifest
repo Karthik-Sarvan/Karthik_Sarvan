@@ -1,14 +1,14 @@
 {
-  "name": "Karthik Sarvan — Embedded Systems & Firmware Engineer",
+  "name": "Karthik Sarvan — Linux Graphics & Kernel Engineer",
   "short_name": "Karthik Sarvan",
-  "description": "Portfolio and journal of Karthik Sarvan, embedded systems and firmware engineer in Visakhapatnam, India.",
+  "description": "Portfolio of Karthik Sarvan, Linux graphics and kernel developer contributing to Mesa 3D, DRM/KMS, and maintainer of Mimic.",
   "start_url": "/",
   "scope": "/",
   "display": "minimal-ui",
-  "background_color": "#ffffff",
-  "theme_color": "#111111",
+  "background_color": "#06080d",
+  "theme_color": "#06080d",
   "lang": "en-IN",
-  "categories": ["portfolio", "embedded systems", "firmware", "engineering"],
+  "categories": ["portfolio", "graphics", "linux", "mesa", "kernel", "vulkan", "firmware"],
   "icons": [
     {
       "src": "assets/favicon-32x32.png",

@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Primary Meta & Search Engine Discovery -->
     <title>Karthik Sarvan | Embedded &amp; Linux Graphics Systems Engineer</title>
-    <meta name="description" content="Portfolio of Karthik Sarvan: Embedded firmware engineer, maintainer of Mimic, and upstream contributor to Mesa 3D and Linux DRM/KMS graphics stack.">
+    <meta name="description" content="Working sheet portfolio of Karthik Sarvan: Embedded firmware engineer, maintainer of Mimic, and upstream contributor to Mesa 3D and Linux DRM/KMS.">
     <meta name="author" content="Karthik Sarvan">
     <meta name="publisher" content="Karthik Sarvan">
     <meta name="keywords" content="Karthik Sarvan, embedded firmware engineer, Mesa 3D contributor, Linux DRM KMS kernel developer, Mimic hardware maintainer, Vulkan, Wayland, STM32, C, Rust">
     <link rel="canonical" href="https://karthik.qzz.io/">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="theme-color" content="#080a0f">
-    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0e1117">
 
     <!-- Favicon & Touch Icons -->
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -53,7 +52,7 @@
     <link rel="me" href="https://x.com/Karthik__Sarvan">
     <link rel="me authn" href="mailto:karthiks1mail@gmail.com">
 
-    <!-- Discovery Feeds -->
+    <!-- Feeds -->
     <link rel="alternate" type="application/atom+xml" title="Karthik Sarvan — Journal" href="https://karthik.qzz.io/feed.xml">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://karthik.qzz.io/sitemap.xml">
 
@@ -84,35 +83,37 @@
     }
     </script>
 
-    <!-- Clean Dark Theme Stylesheet -->
+    <!-- Sketch Working Sheet Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- Site Header -->
+    <!-- Working Sheet Top Navigation -->
     <header class="site-nav">
         <div class="container nav-wrapper">
-            <a href="https://karthik.qzz.io/" class="brand-link" aria-label="Karthik Sarvan Home">
-                <span class="status-dot"></span>
-                <span class="brand-title">KARTHIK_SARVAN</span>
-                <span class="brand-sub">DRM / KMS &amp; MESA</span>
+            <a href="https://karthik.qzz.io/" class="brand-link" aria-label="Karthik Sarvan Working Sheet">
+                Karthik<span class="brand-dot">.</span>
+                <span class="brand-sub">/ working sheet</span>
             </a>
 
             <nav aria-label="Main Navigation">
                 <ul class="nav-links">
                     <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#upstream" class="nav-link">Upstream Work</a></li>
+                    <li><a href="#upstream" class="nav-link">Upstream</a></li>
                     <li><a href="#pipeline" class="nav-link">Graphics Pipeline</a></li>
-                    <li><a href="#activity" class="nav-link">Commit Velocity</a></li>
+                    <li><a href="#activity" class="nav-link">Ledger</a></li>
                     <li><a href="blog.html" class="nav-link">Journal</a></li>
                 </ul>
             </nav>
 
             <div class="nav-actions">
-                <button id="btn-terminal-open" class="btn btn-secondary" style="font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1rem;">
+                <button id="btn-theme-toggle" class="btn" style="font-size: 1.15rem; padding: 0.35rem 0.85rem;" aria-label="Toggle light/dark theme">
+                    ☀️ <span style="font-size:1.1rem;">Light</span>
+                </button>
+                <button id="btn-terminal-open" class="btn" style="font-size: 1.15rem; padding: 0.35rem 0.85rem;">
                     &gt;_ Shell
                 </button>
-                <a href="mailto:karthiks1mail@gmail.com" class="btn btn-primary">
+                <a href="mailto:karthiks1mail@gmail.com" class="btn btn-accent">
                     Get in Touch
                 </a>
             </div>
@@ -122,82 +123,131 @@
     <main id="main-content">
 
         <!-- ============================================================
-             HERO SECTION: SPATIOUS 2-COLUMN SPLIT
+             HERO: WORKING SHEET OPENING (Statement + Notes + Sketch)
              ============================================================ -->
         <section id="about" class="hero-section">
             <div class="container hero-grid">
                 
-                <!-- Left: Professional Narrative -->
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <span>● OPEN-SOURCE MESA 3D &amp; DRM/KMS CONTRIBUTOR</span>
+                <!-- Left: Handwritten Statement & Arrow Action -->
+                <div class="hero-left">
+                    <div class="hero-greeting">
+                        <span>Hi, I'm Karthik 👋</span>
+                        <span style="font-size: 1.15rem; color: var(--dp-color-annotation);">[working sheet // 2026]</span>
                     </div>
 
-                    <h1 class="hero-title">Karthik Sarvan</h1>
-                    
-                    <div class="hero-subtitle">
-                        Embedded Firmware &amp; Linux Graphics Systems Engineer
-                    </div>
+                    <h1 class="hero-title">
+                        Embedded firmware &amp; <span class="highlight-yellow">Linux graphics</span> systems engineer.
+                    </h1>
 
-                    <p class="hero-desc">
-                        I am an embedded firmware engineer, open-source developer, and the maintainer of <strong><a href="https://mimic.aegiondynamic.com" target="_blank" rel="noopener" style="color: var(--cyan); text-decoration: underline; text-underline-offset: 4px;">Mimic</a></strong>.
-                        I am actively contributing upstream to <strong>Mesa 3D</strong>, the <strong>Linux kernel DRM/KMS</strong> subsystem, and bare-metal graphics systems.
+                    <!-- Irregular hand-drawn underline -->
+                    <svg class="hand-drawn-line" viewBox="0 0 320 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 5C64 2 192 1 318 6" stroke="var(--dp-color-accent)" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+
+                    <p class="hero-statement">
+                        I build bare-metal firmware, maintain <strong><a href="https://mimic.aegiondynamic.com" target="_blank" rel="noopener">Mimic</a></strong> hardware emulation, and contribute upstream to <strong>Mesa 3D</strong> and the <strong>Linux kernel DRM/KMS</strong> graphics subsystem.
                     </p>
 
-                    <div class="hero-pills">
-                        <span class="stat-pill"><strong>MR !45614</strong> (Lavapipe Vulkan)</span>
-                        <span class="stat-pill"><strong>Maintainer</strong> (Mimic HIL STM32)</span>
-                        <span class="stat-pill"><strong>2,742+</strong> Commits in 2026</span>
+                    <!-- Main Action Cluster with Hand-Drawn Arrow -->
+                    <div class="hero-actions-cluster">
+                        <div class="hero-buttons">
+                            <a href="#upstream" class="btn btn-accent">
+                                Explore Upstream Work ↓
+                            </a>
+                            <a href="https://mimic.aegiondynamic.com" target="_blank" rel="noopener" class="btn">
+                                Mimic Hardware ↗
+                            </a>
+                            <a href="https://game.karthik.qzz.io" target="_blank" rel="noopener" class="btn btn-annotation">
+                                🎮 3D Roadster World ↗
+                            </a>
+                        </div>
+                        
+                        <div class="hero-arrow-note">
+                            <svg class="hero-arrow-svg" viewBox="0 0 42 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 14C15 11 27 10 37 13M37 13L29 7M37 13L30 20" stroke="var(--dp-color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>mainline merge requests &amp; driver commits</span>
+                        </div>
                     </div>
 
-                    <div class="hero-ctas">
-                        <a href="#upstream" class="btn btn-primary">
-                            Explore Upstream Work ↓
-                        </a>
-                        <a href="https://mimic.aegiondynamic.com" target="_blank" rel="noopener" class="btn btn-secondary">
-                            Mimic Hardware ↗
-                        </a>
-                        <a href="https://game.karthik.qzz.io" target="_blank" rel="noopener" class="btn btn-accent-pink">
-                            🎮 3D Roadster World ↗
-                        </a>
+                    <!-- Facts beneath Drawn Bracket -->
+                    <div class="drawn-bracket-facts">
+                        <span class="bracket-symbol">}</span>
+                        <div class="facts-list">
+                            <div class="fact-item">
+                                <span class="fact-bullet">✓</span>
+                                <span>Upstream contributor to Mesa 3D (MR !45614) &amp; Linux DRM/KMS</span>
+                            </div>
+                            <div class="fact-item">
+                                <span class="fact-bullet">✓</span>
+                                <span>Maintainer of Mimic (physical sensor HIL emulation on STM32)</span>
+                            </div>
+                            <div class="fact-item">
+                                <span class="fact-bullet">✓</span>
+                                <span>2,742+ commits in 2026 across FreeDesktop GitLab &amp; GitHub</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Right: Live GPU & Kernel Subsystem Inspector HUD -->
-                <div class="hero-hud">
-                    <div class="hud-topbar">
-                        <div class="hud-dots">
-                            <span class="dot dot-red"></span>
-                            <span class="dot dot-yellow"></span>
-                            <span class="dot dot-green"></span>
+                <!-- Right: Pencil Line Sketch & Taped Notes Cluster -->
+                <div class="hero-right">
+                    
+                    <div class="sketch-sheet">
+                        <div class="tape-strip tape-top-center"></div>
+
+                        <div class="sketch-sheet-header">
+                            <span class="sketch-sheet-title">FIG. 00 // WORKBENCH SCHEMATIC</span>
+                            <span class="sketch-sheet-date">REV 2.5 — BARE METAL</span>
                         </div>
-                        <span class="hud-title">karthik@drm-subsystem: ~ (LIVE TELEMETRY)</span>
+
+                        <!-- Architectural Pencil Drawing -->
+                        <svg class="sketch-drawing-svg" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Desk Line -->
+                            <path d="M20 200H380" class="pencil-line" stroke-width="2"/>
+                            
+                            <!-- Main Monitor -->
+                            <rect x="70" y="40" width="160" height="110" rx="4" class="pencil-line" stroke-width="2"/>
+                            <path d="M150 150V190" class="pencil-line" stroke-width="2"/>
+                            <path d="M120 190H180" class="pencil-line" stroke-width="2"/>
+                            <!-- Code Lines in Blue Pencil -->
+                            <path d="M85 60H140" class="pencil-line-blue"/>
+                            <path d="M85 75H195" class="pencil-line"/>
+                            <path d="M95 90H210" class="pencil-line"/>
+                            <path d="M95 105H180" class="pencil-line"/>
+                            <path d="M85 120H130" class="pencil-line-red"/>
+                            <path d="M95 135H165" class="pencil-line"/>
+
+                            <!-- Laptop (Foreground) -->
+                            <path d="M180 145L220 185H310L275 145H180Z" class="pencil-line" stroke-width="2"/>
+                            <path d="M220 185L210 195H325L310 185H220Z" class="pencil-line"/>
+                            <circle cx="230" cy="165" r="5" class="pencil-line-red"/>
+
+                            <!-- Microcontroller / STM32 Board (Right Desk) -->
+                            <rect x="290" y="80" width="80" height="60" rx="3" class="pencil-line"/>
+                            <circle cx="330" cy="110" r="12" class="pencil-line-blue"/>
+                            <!-- Pinouts -->
+                            <path d="M290 90H280M290 100H280M290 110H280M290 120H280M290 130H280" class="pencil-line"/>
+                            <path d="M370 90H380M370 100H380M370 110H380M370 120H380M370 130H380" class="pencil-line"/>
+                            <!-- Wiring connection -->
+                            <path d="M280 110C260 110 240 130 220 145" class="pencil-line-red" stroke-dasharray="4 3"/>
+
+                            <!-- Coffee Mug with rising pencil steam -->
+                            <rect x="35" y="160" width="22" height="28" rx="2" class="pencil-line"/>
+                            <path d="M35 168C27 168 25 174 25 178C25 182 27 186 35 186" class="pencil-line"/>
+                            <path d="M42 154C40 148 44 144 42 138" class="pencil-line-red"/>
+                            <path d="M48 154C46 148 50 144 48 138" class="pencil-line-red"/>
+
+                            <!-- Hand-drawn Labels -->
+                            <text x="75" y="32" font-family="'Caveat', cursive" font-size="19" fill="var(--dp-color-annotation)">DRM / KMS modesetting display</text>
+                            <text x="280" y="72" font-family="'Caveat', cursive" font-size="19" fill="var(--dp-color-accent)">STM32 HIL [Mimic]</text>
+                        </svg>
                     </div>
 
-                    <div class="telemetry-grid">
-                        <div class="telemetry-item">
-                            <div class="telemetry-label">GPU Vendor</div>
-                            <div id="gpu-vendor-val" class="telemetry-val">Intel / Mesa</div>
-                        </div>
-                        <div class="telemetry-item">
-                            <div class="telemetry-label">Active Renderer</div>
-                            <div id="gpu-renderer-val" class="telemetry-val accent">Mesa Intel UHD Graphics 620</div>
-                        </div>
-                        <div class="telemetry-item">
-                            <div class="telemetry-label">Max Texture Size</div>
-                            <div id="gpu-tex-val" class="telemetry-val">16384px</div>
-                        </div>
-                        <div class="telemetry-item">
-                            <div class="telemetry-label">WebGL Extensions</div>
-                            <div id="gpu-ext-val" class="telemetry-val accent">36 extensions</div>
-                        </div>
-                    </div>
-
-                    <div class="hud-terminal-preview">
-                        <div><span class="hud-line-dim">[0.841022]</span> <span class="hud-line-cyan">[drm]</span> drivers/gpu/drm initialized on minor 0</div>
-                        <div><span class="hud-line-dim">[0.843105]</span> <span class="hud-line-green">[mesa]</span> Lavapipe MR !45614 pipeline cache verified</div>
-                        <div><span class="hud-line-dim">[0.845012]</span> <span class="hud-line-cyan">[sync]</span> wp_linux_drm_syncobj_v1 timeline fences active</div>
-                        <div style="margin-top:0.4rem;"><span class="hud-line-green">&gt; press ` or click &gt;_ Shell to launch full diagnostic console</span></div>
+                    <!-- Blue Note Scrap -->
+                    <div class="blue-note-scrap">
+                        <div class="tape-strip tape-top-right"></div>
+                        <strong>Blue Note:</strong> All patches target upstream mainline (FreeDesktop GitLab &amp; kernel.org). No out-of-tree forks or vendor lock-in.
                     </div>
                 </div>
 
@@ -205,30 +255,34 @@
         </section>
 
         <!-- ============================================================
-             OFFICIAL PROFILE BANNER CARD
+             TAPED REFERENCE: OFFICIAL DEVELOPER BANNER
              ============================================================ -->
-        <section class="banner-section">
+        <section class="taped-reference-section">
             <div class="container">
-                <div class="banner-card">
-                    <img src="assets/karthik-banner.png" alt="Karthik Sarvan — Developer | Engineer Banner" width="1024" height="254" class="banner-img">
-                    <div class="banner-caption">
-                        <span>Official developer banner verified on upstream GitHub (<strong>@Karthik-Sarvan</strong>)</span>
-                        <span class="banner-tag">STM32 · LINUX DRM/KMS · MESA 3D</span>
+                <div class="taped-mount">
+                    <div class="tape-strip tape-top-left"></div>
+                    <div class="tape-strip tape-top-right"></div>
+
+                    <img src="assets/karthik-banner.png" alt="Karthik Sarvan — Developer | Engineer Banner" width="1024" height="254" class="taped-mount-img">
+                    
+                    <div class="taped-mount-caption">
+                        <span><strong class="taped-red-label">FIG. 01</strong> — Official developer banner verified on upstream GitHub (<strong>@Karthik-Sarvan</strong>)</span>
+                        <span style="font-family: var(--dp-typography-mono-face); font-size: 0.95rem; color: var(--dp-color-annotation);">[STM32 · DRM/KMS · MESA 3D]</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ============================================================
-             SUBSYSTEMS STRIP
+             SUBSYSTEM STRIP (Pencil Ledger)
              ============================================================ -->
-        <section class="subsystems-strip-section" aria-label="Core Subsystems and Forges">
+        <section class="subsystem-strip-section" aria-label="Core Subsystems and Forges">
             <div class="container">
                 <div class="strip-label">CORE ARCHITECTURES, SUBSYSTEMS &amp; FORGES</div>
                 <div class="strip-items">
                     <span>MESA 3D</span>
                     <span class="strip-sep">/</span>
-                    <span>LINUX DRM / KMS</span>
+                    <span>LINUX DRM/KMS</span>
                     <span class="strip-sep">/</span>
                     <span>MIMIC HIL</span>
                     <span class="strip-sep">/</span>
@@ -248,78 +302,79 @@
         </section>
 
         <!-- ============================================================
-             UPSTREAM CONTRIBUTIONS & HIGHLIGHTS (Bento Grid)
+             UPSTREAM HIGHLIGHTS: EQUAL-WIDTH OPEN THOUGHTS (3-COL GRID)
              ============================================================ -->
         <section id="upstream" class="section">
             <div class="container">
-                <div class="section-header">
-                    <div class="section-tag">
-                        <span>Upstream Work</span>
-                    </div>
-                    <h2 class="section-title">Open-Source Subsystems &amp; Projects</h2>
+                <div class="section-lead">
+                    <span class="section-tag-blue">[field notes // 01]</span>
+                    <h2 class="section-heading">Open-Source Subsystems &amp; Upstream Work</h2>
                     <p class="section-desc">
                         Engineering real code upstream across user-space Mesa drivers, kernel DRM display engines, and physical hardware simulation.
                     </p>
                 </div>
 
-                <div class="bento-grid-3">
+                <div class="thoughts-grid">
                     <!-- Mesa 3D -->
-                    <article class="bento-card">
+                    <article class="thought-sheet">
+                        <div class="tape-strip tape-top-center"></div>
                         <div>
-                            <div class="card-num">01 // USER-SPACE GRAPHICS</div>
-                            <h3 class="card-title">Mesa 3D Drivers</h3>
-                            <p class="card-text">
+                            <div class="thought-number">01 // USER-SPACE GRAPHICS</div>
+                            <h3 class="thought-title">Mesa 3D Drivers</h3>
+                            <p class="thought-text">
                                 Contributing upstream to Mesa 3D on FreeDesktop GitLab. Author of <strong>MR !45614</strong> (fixing Lavapipe Vulkan pipeline cache header size reporting), Zink OpenGL-over-Vulkan HUD profiling queries, and NIR compiler passes.
                             </p>
-                            <div class="card-tags">
-                                <span class="tag-badge">MR !45614</span>
-                                <span class="tag-badge">Lavapipe Vulkan</span>
-                                <span class="tag-badge">Zink HUD</span>
-                                <span class="tag-badge">NIR Compiler</span>
+                            <div class="thought-tags">
+                                <span class="thought-tag">MR !45614</span>
+                                <span class="thought-tag">Lavapipe Vulkan</span>
+                                <span class="thought-tag">Zink HUD</span>
+                                <span class="thought-tag">NIR Compiler</span>
                             </div>
                         </div>
-                        <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" rel="noopener" class="card-link">
-                            FreeDesktop GitLab MRs ↗
+                        <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" rel="noopener" class="thought-action-link">
+                            FreeDesktop GitLab MRs ➔
                         </a>
                     </article>
 
                     <!-- Linux Kernel DRM / KMS -->
-                    <article class="bento-card">
+                    <article class="thought-sheet">
+                        <div class="tape-strip tape-top-center"></div>
                         <div>
-                            <div class="card-num">02 // KERNEL SUBSYSTEM</div>
-                            <h3 class="card-title">Linux DRM / KMS</h3>
-                            <p class="card-text">
+                            <div class="thought-number">02 // KERNEL SUBSYSTEM</div>
+                            <h3 class="thought-title">Linux DRM / KMS</h3>
+                            <p class="thought-text">
                                 Low-level graphics subsystem engineering in <code>drivers/gpu/drm/</code>. Working on Atomic Modesetting state commits (<code>DRM_IOCTL_MODE_ATOMIC_COMMIT</code>), GEM buffer object lifecycles, and Wayland explicit synchronization timelines.
                             </p>
-                            <div class="card-tags">
-                                <span class="tag-badge">Atomic KMS</span>
-                                <span class="tag-badge">GEM / TTM</span>
-                                <span class="tag-badge">syncobj_v1</span>
-                                <span class="tag-badge">dma_fence</span>
+                            <div class="thought-tags">
+                                <span class="thought-tag">Atomic KMS</span>
+                                <span class="thought-tag">GEM / TTM</span>
+                                <span class="thought-tag">syncobj_v1</span>
+                                <span class="thought-tag">dma_fence</span>
                             </div>
                         </div>
-                        <a href="#pipeline" class="card-link">
-                            Inspect 5-Stage Pipeline ↓
+                        <a href="#pipeline" class="thought-action-link">
+                            Inspect 5-Stage Pipeline ➔
                         </a>
                     </article>
 
                     <!-- Mimic Hardware Emulation -->
-                    <article class="bento-card">
+                    <article class="thought-sheet">
+                        <div class="tape-strip tape-top-center"></div>
                         <div>
-                            <div class="card-num">03 // HARDWARE EMULATION</div>
-                            <h3 class="card-title">Mimic HIL Framework</h3>
-                            <p class="card-text">
+                            <div class="thought-number">03 // HARDWARE EMULATION</div>
+                            <h3 class="thought-title">Mimic HIL Framework</h3>
+                            <p class="thought-text">
                                 Maintainer of <strong>Mimic</strong> (<code>mimic.aegiondynamic.com</code>). An open-source hardware-in-the-loop test framework that emulates physical I2C and SPI sensors on bare-metal STM32 hardware to validate embedded control loops before fabrication.
                             </p>
-                            <div class="card-tags">
-                                <span class="tag-badge">Maintainer</span>
-                                <span class="tag-badge">Bare-Metal C</span>
-                                <span class="tag-badge">STM32 HIL</span>
-                                <span class="tag-badge">I2C / SPI</span>
+                            <div class="thought-tags">
+                                <span class="thought-tag">Maintainer</span>
+                                <span class="thought-tag">Bare-Metal C</span>
+                                <span class="thought-tag">STM32 HIL</span>
+                                <span class="thought-tag">I2C / SPI</span>
                             </div>
                         </div>
-                        <a href="https://mimic.aegiondynamic.com" target="_blank" rel="noopener" class="card-link">
-                            Visit mimic.aegiondynamic.com ↗
+                        <a href="https://mimic.aegiondynamic.com" target="_blank" rel="noopener" class="thought-action-link">
+                            Visit mimic.aegiondynamic.com ➔
                         </a>
                     </article>
                 </div>
@@ -327,86 +382,84 @@
         </section>
 
         <!-- ============================================================
-             5-STAGE LINUX GRAPHICS PIPELINE EXPLORER
+             PROCESS / PIPELINE: DARKER IRREGULAR PAPER STRIP
              ============================================================ -->
-        <section id="pipeline" class="section pipeline-section">
+        <section id="pipeline" class="pipeline-strip">
             <div class="container">
-                <div class="section-header">
-                    <div class="section-tag">
-                        <span>Architecture Explorer</span>
-                    </div>
-                    <h2 class="section-title">The 5-Stage Linux Graphics Pipeline</h2>
+                <div class="process-header">
+                    <span class="section-tag-blue">[process blueprint // 02]</span>
+                    <h2 class="section-heading">The 5-Stage Linux Graphics Pipeline</h2>
                     <p class="section-desc">
-                        Step through how draw calls travel from client Wayland surfaces through Mesa NIR, down into the Linux kernel DRM subsystem, and out to display silicon.
+                        A process on a darker paper strip with circled numbers and connecting arrows tracing draw calls from Wayland surfaces down to display silicon.
                     </p>
                 </div>
 
-                <div class="pipeline-wrapper">
-                    <div class="pipeline-tabs" role="tablist" aria-label="Graphics Pipeline Stages">
-                        <button class="stage-tab active" data-stage="app" role="tab" aria-selected="true">
-                            <div class="stage-num">01 · WAYLAND</div>
-                            <div class="stage-title">Client Surface</div>
-                        </button>
-                        <button class="stage-tab" data-stage="api" role="tab" aria-selected="false">
-                            <div class="stage-num">02 · API</div>
-                            <div class="stage-title">Vulkan / GL</div>
-                        </button>
-                        <button class="stage-tab" data-stage="mesa" role="tab" aria-selected="false">
-                            <div class="stage-num">03 · MESA 3D</div>
-                            <div class="stage-title">NIR Compiler</div>
-                        </button>
-                        <button class="stage-tab" data-stage="drm" role="tab" aria-selected="false">
-                            <div class="stage-num">04 · KERNEL</div>
-                            <div class="stage-title">DRM / KMS</div>
-                        </button>
-                        <button class="stage-tab" data-stage="gpu" role="tab" aria-selected="false">
-                            <div class="stage-num">05 · HARDWARE</div>
-                            <div class="stage-title">Display Scanout</div>
-                        </button>
-                    </div>
+                <!-- Process Row with Circled Numbers -->
+                <div class="process-strip-row" role="tablist" aria-label="Pipeline Stages">
+                    <button class="process-step-tab active" data-stage="app" role="tab" aria-selected="true">
+                        <div class="step-circ">① WAYLAND</div>
+                        <div class="step-name">Client Surface</div>
+                    </button>
+                    <button class="process-step-tab" data-stage="api" role="tab" aria-selected="false">
+                        <div class="step-circ">② API</div>
+                        <div class="step-name">Vulkan / GL</div>
+                    </button>
+                    <button class="process-step-tab" data-stage="mesa" role="tab" aria-selected="false">
+                        <div class="step-circ">③ MESA 3D</div>
+                        <div class="step-name">NIR Compiler</div>
+                    </button>
+                    <button class="process-step-tab" data-stage="drm" role="tab" aria-selected="false">
+                        <div class="step-circ">④ KERNEL</div>
+                        <div class="step-name">DRM / KMS</div>
+                    </button>
+                    <button class="process-step-tab" data-stage="gpu" role="tab" aria-selected="false">
+                        <div class="step-circ">⑤ HARDWARE</div>
+                        <div class="step-name">Display Scanout</div>
+                    </button>
+                </div>
 
-                    <div id="pipeline-display" class="pipeline-display" role="tabpanel">
-                        <div class="pipeline-info">
-                            <span class="pipeline-stage-badge">STAGE 01 // WAYLAND PROTOCOL</span>
-                            <h3 class="pipeline-stage-heading">Client Application &amp; Wayland Compositor</h3>
-                            <p class="pipeline-stage-text">
-                                Wayland client surfaces, frame callbacks, and display presentation. The compositor coordinates surface pacing, zero-copy dmabuf buffer passing, and explicit timeline synchronization.
-                            </p>
-                        </div>
-                        <div class="code-box">
-                            <pre><code>// Wayland client dmabuf allocation &amp; presentation
+                <!-- Process Detail Ledger -->
+                <div id="pipeline-display" class="process-detail-ledger" role="tabpanel">
+                    <div class="ledger-info">
+                        <span class="ledger-badge">STAGE 01 // WAYLAND PROTOCOL</span>
+                        <h3 class="ledger-title">Client Application &amp; Wayland Compositor</h3>
+                        <p class="ledger-desc">
+                            Wayland client surfaces, frame callbacks, and display presentation. The compositor coordinates surface pacing, zero-copy dmabuf buffer passing, and explicit timeline synchronization.
+                        </p>
+                    </div>
+                    <div class="ledger-code-scrap">
+                        <pre><code>// Wayland client dmabuf allocation &amp; presentation
 struct zwp_linux_dmabuf_v1 *dmabuf = ...;
 struct wp_linux_drm_syncobj_manager_v1 *syncobj_mgr = ...;
 wp_linux_drm_syncobj_surface_v1_set_acquire_point(surface_sync, syncobj, point);</code></pre>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ============================================================
-             UPSTREAM COMMIT VELOCITY & 2026 HEATMAP
+             HEATMAP / COMMIT VELOCITY LEDGER
              ============================================================ -->
         <section id="activity" class="section">
             <div class="container">
-                <div class="section-header">
-                    <div class="section-tag">
-                        <span>Commit Velocity</span>
-                    </div>
-                    <h2 class="section-title">Upstream Contribution Heatmap</h2>
+                <div class="section-lead">
+                    <span class="section-tag-blue">[ledger // 03]</span>
+                    <h2 class="section-heading">Upstream Contribution Ledger</h2>
                     <p class="section-desc">
-                        Full-year activity matrix across FreeDesktop GitLab and GitHub repositories with 2,742+ commits recorded in 2026.
+                        Full-year activity matrix across FreeDesktop GitLab and GitHub repositories.
                     </p>
                 </div>
 
-                <div class="heatmap-card">
-                    <div class="heatmap-header">
+                <div class="ledger-sheet">
+                    <div class="tape-strip tape-top-right"></div>
+                    
+                    <div class="ledger-header">
                         <div>
-                            <div class="heatmap-stat-num">2,742+</div>
-                            <div class="heatmap-stat-label">Contributions in 2026 across FreeDesktop GitLab &amp; GitHub</div>
+                            <div class="ledger-stat-big">2,742+ commits</div>
+                            <div class="ledger-stat-label">Mainline open-source contributions recorded in 2026</div>
                         </div>
-                        <a href="https://github.com/karthik-sarvan" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.45rem 1rem;">
-                            View GitHub Graph ↗
+                        <a href="https://github.com/karthik-sarvan" target="_blank" rel="noopener" class="btn btn-annotation">
+                            GitHub Graph ↗
                         </a>
                     </div>
 
@@ -423,142 +476,136 @@ wp_linux_drm_syncobj_surface_v1_set_acquire_point(surface_sync, syncobj, point);
         <div id="heatmap-tooltip" class="heatmap-tooltip" role="tooltip"></div>
 
         <!-- ============================================================
-             FIND ME AROUND THE WEB (Spacious 3-Column Grid)
+             FIND ME AROUND THE WEB: 3-COLUMN OUTLINED NOTES
              ============================================================ -->
-        <section class="section" style="background: rgba(15, 19, 28, 0.4);">
+        <section class="section">
             <div class="container">
-                <div class="section-header">
-                    <div class="section-tag">
-                        <span>Connect</span>
-                    </div>
-                    <h2 class="section-title">Find me around the web 🌐</h2>
+                <div class="section-lead">
+                    <span class="section-tag-blue">[network notes // 04]</span>
+                    <h2 class="section-heading">Find me around the web 🌐</h2>
                     <p class="section-desc">
                         Upstream code repositories, real-time development updates, and professional correspondence.
                     </p>
                 </div>
 
-                <div class="web-links-grid">
-                    <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" rel="noopener" class="web-link-card">
-                        <div class="web-link-left">
-                            <span class="web-link-icon">🦊</span>
-                            <div>
-                                <div class="web-link-title">Freedesktop GitLab</div>
-                                <div class="web-link-sub">Upstream activity &amp; contributions to Mesa 3D</div>
-                            </div>
+                <div class="web-notes-grid">
+                    <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" rel="noopener" class="web-note-sheet">
+                        <div>
+                            <div class="web-note-title">Freedesktop GitLab</div>
+                            <div class="web-note-sub">Upstream activity &amp; contributions to Mesa 3D</div>
                         </div>
-                        <span class="web-link-arrow">↗</span>
+                        <span class="web-note-arrow">➔</span>
                     </a>
 
-                    <a href="https://github.com/karthik-sarvan" target="_blank" rel="noopener" class="web-link-card">
-                        <div class="web-link-left">
-                            <span class="web-link-icon">🐙</span>
-                            <div>
-                                <div class="web-link-title">GitHub (@Karthik-Sarvan)</div>
-                                <div class="web-link-sub">Open-source repositories, tools &amp; commit log</div>
-                            </div>
+                    <a href="https://github.com/karthik-sarvan" target="_blank" rel="noopener" class="web-note-sheet">
+                        <div>
+                            <div class="web-note-title">GitHub (@Karthik-Sarvan)</div>
+                            <div class="web-note-sub">Open-source repositories, tools &amp; commit log</div>
                         </div>
-                        <span class="web-link-arrow">↗</span>
+                        <span class="web-note-arrow">➔</span>
                     </a>
 
-                    <a href="https://x.com/Karthik__Sarvan" target="_blank" rel="noopener" class="web-link-card">
-                        <div class="web-link-left">
-                            <span class="web-link-icon">🐦</span>
-                            <div>
-                                <div class="web-link-title">X / Twitter (@Karthik__Sarvan)</div>
-                                <div class="web-link-sub">Embedded firmware &amp; graphics stack updates</div>
-                            </div>
+                    <a href="https://x.com/Karthik__Sarvan" target="_blank" rel="noopener" class="web-note-sheet">
+                        <div>
+                            <div class="web-note-title">X / Twitter (@Karthik__Sarvan)</div>
+                            <div class="web-note-sub">Embedded firmware &amp; graphics stack updates</div>
                         </div>
-                        <span class="web-link-arrow">↗</span>
+                        <span class="web-note-arrow">➔</span>
                     </a>
 
-                    <a href="https://www.linkedin.com/in/karthik-sarvan/" target="_blank" rel="noopener" class="web-link-card">
-                        <div class="web-link-left">
-                            <span class="web-link-icon">💼</span>
-                            <div>
-                                <div class="web-link-title">LinkedIn</div>
-                                <div class="web-link-sub">Professional systems background &amp; history</div>
-                            </div>
+                    <a href="https://www.linkedin.com/in/karthik-sarvan/" target="_blank" rel="noopener" class="web-note-sheet">
+                        <div>
+                            <div class="web-note-title">LinkedIn</div>
+                            <div class="web-note-sub">Professional background, history &amp; credentials</div>
                         </div>
-                        <span class="web-link-arrow">↗</span>
+                        <span class="web-note-arrow">➔</span>
                     </a>
 
-                    <a href="mailto:karthiks1mail@gmail.com" class="web-link-card">
-                        <div class="web-link-left">
-                            <span class="web-link-icon">✉️</span>
-                            <div>
-                                <div class="web-link-title">Direct Email</div>
-                                <div class="web-link-sub">karthiks1mail@gmail.com</div>
-                            </div>
+                    <a href="mailto:karthiks1mail@gmail.com" class="web-note-sheet">
+                        <div>
+                            <div class="web-note-title">Direct Email</div>
+                            <div class="web-note-sub">karthiks1mail@gmail.com</div>
                         </div>
-                        <span class="web-link-arrow">↗</span>
+                        <span class="web-note-arrow">➔</span>
                     </a>
 
-                    <a href="https://game.karthik.qzz.io" target="_blank" rel="noopener" class="web-link-card" style="border-color: rgba(255, 59, 92, 0.4);">
-                        <div class="web-link-left">
-                            <span class="web-link-icon">🎮</span>
-                            <div>
-                                <div class="web-link-title" style="color: #ff6b85;">3D Roadster World</div>
-                                <div class="web-link-sub">Experimental 3D sphere at game.karthik.qzz.io</div>
-                            </div>
+                    <a href="https://game.karthik.qzz.io" target="_blank" rel="noopener" class="web-note-sheet" style="border-color: var(--dp-color-accent);">
+                        <div>
+                            <div class="web-note-title" style="color: var(--dp-color-accent);">3D Roadster World</div>
+                            <div class="web-note-sub">Experimental 3D sphere experience at game.karthik.qzz.io</div>
                         </div>
-                        <span class="web-link-arrow" style="color: #ff6b85;">↗</span>
+                        <span class="web-note-arrow">➔</span>
                     </a>
                 </div>
             </div>
         </section>
 
         <!-- ============================================================
-             TECHNICAL ESSAYS SECTION
+             TECHNICAL JOURNAL HIGHLIGHTS
              ============================================================ -->
-        <section class="section">
+        <section class="section" style="border-top: var(--dp-border-fine-stroke) dashed var(--dp-color-line);">
             <div class="container">
-                <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+                <div class="section-lead" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
                     <div>
-                        <div class="section-tag">Systems Journal</div>
-                        <h2 class="section-title">Technical Deep Dives</h2>
+                        <span class="section-tag-blue">[technical essays // 05]</span>
+                        <h2 class="section-heading">Systems Journal &amp; Deep Dives</h2>
                     </div>
-                    <a href="blog.html" class="btn btn-secondary" style="font-size: 0.88rem;">
+                    <a href="blog.html" class="btn" style="font-size: 1.15rem;">
                         View All Articles ↗
                     </a>
                 </div>
 
-                <div class="articles-grid">
-                    <article class="bento-card">
+                <div class="web-notes-grid" style="margin-top: 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr));">
+                    <article class="thought-sheet">
                         <div>
-                            <div class="card-num">FIRMWARE HIL // STM32</div>
-                            <h3 class="card-title">Building a Bare-Metal Firmware Testing Framework</h3>
-                            <p class="card-text">
+                            <div class="thought-number">ESSAY // FIRMWARE HIL</div>
+                            <h3 class="thought-title">Building a Bare-Metal Firmware Testing Framework</h3>
+                            <p class="thought-text">
                                 How Mimic emulates physical I2C &amp; SPI sensors on STM32 to validate control loops prior to physical board fabrication.
                             </p>
                         </div>
-                        <a href="posts/bare-metal-firmware-testing-with-mimic.html" class="card-link">
-                            Read Technical Breakdown ↗
+                        <a href="posts/bare-metal-firmware-testing-with-mimic.html" class="thought-action-link">
+                            Read Breakdown ➔
                         </a>
                     </article>
 
-                    <article class="bento-card">
+                    <article class="thought-sheet">
                         <div>
-                            <div class="card-num">SYSTEMS ARCHITECTURE // RUST</div>
-                            <h3 class="card-title">Safe Concurrency in Rust for EDA Tooling</h3>
-                            <p class="card-text">
+                            <div class="thought-number">ESSAY // RUST SYSTEMS</div>
+                            <h3 class="thought-title">Safe Concurrency in Rust for EDA Tooling</h3>
+                            <p class="thought-text">
                                 Architectural patterns for zero-cost thread safety, memory isolation, and parallel compute passes in hardware EDA engines.
                             </p>
                         </div>
-                        <a href="posts/safe-concurrency-in-rust-for-eda.html" class="card-link">
-                            Read Technical Breakdown ↗
+                        <a href="posts/safe-concurrency-in-rust-for-eda.html" class="thought-action-link">
+                            Read Breakdown ➔
                         </a>
                     </article>
                 </div>
             </div>
         </section>
 
+        <!-- ============================================================
+             LARGE RED STATEMENT BEFORE LIGHTLY DIVIDED FOOTER
+             ============================================================ -->
+        <section class="closing-section">
+            <div class="container">
+                <div class="closing-statement">
+                    "Building open-source graphics drivers and bare-metal systems from the ground up."
+                </div>
+                <a href="mailto:karthiks1mail@gmail.com" class="btn btn-accent" style="font-size: 1.45rem; padding: 0.65rem 2.25rem;">
+                    Say Hello — karthiks1mail@gmail.com
+                </a>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Footer -->
+    <!-- Footer: Lightly Divided -->
     <footer class="site-footer">
         <div class="container footer-content">
             <div>
-                <span>© 2026 Karthik Sarvan · Embedded &amp; Linux Graphics Systems Engineer</span>
+                <span>© 2026 Karthik Sarvan · Working Sheet / Embedded &amp; Linux Graphics</span>
             </div>
             <div class="footer-links">
                 <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" rel="noopener">FreeDesktop</a>
@@ -570,16 +617,11 @@ wp_linux_drm_syncobj_surface_v1_set_acquire_point(surface_sync, syncobj, point);
         </div>
     </footer>
 
-    <!-- Interactive Terminal Shell Drawer -->
+    <!-- Interactive Terminal Shell Drawer (Working Sheet Ledger Style) -->
     <div id="terminal-drawer" role="dialog" aria-modal="true" aria-label="Linux Graphics Kernel Terminal Shell">
         <div class="term-topbar">
-            <div class="hud-dots">
-                <span class="dot dot-red"></span>
-                <span class="dot dot-yellow"></span>
-                <span class="dot dot-green"></span>
-            </div>
-            <span class="term-title">karthik@drm-subsystem: ~ (press ` or Esc to toggle)</span>
-            <button id="btn-terminal-close" class="btn" style="padding: 0.15rem 0.5rem; background: transparent; color: var(--text-muted); border: none;" aria-label="Close Terminal">×</button>
+            <div class="term-title">karthik@kernel: ~ [working-sheet shell] (press ` or Esc to toggle)</div>
+            <button id="btn-terminal-close" class="btn" style="padding: 0.15rem 0.6rem; font-size: 1.1rem; background: transparent; color: var(--dp-color-line); border: 1px solid var(--dp-color-line);" aria-label="Close Terminal">×</button>
         </div>
         <div id="term-cli-output" class="term-output">
             <div class="term-line">
@@ -590,8 +632,8 @@ wp_linux_drm_syncobj_surface_v1_set_acquire_point(surface_sync, syncobj, point);
             </div>
         </div>
         <div class="term-input-bar">
-            <span class="term-prompt">karthik@drm:~$</span>
-            <input type="text" id="term-cli-input" class="term-input" autocomplete="off" spellcheck="false" placeholder="Type command (mesa, drm, mimic, commits, glxinfo, vulkaninfo, game, help)...">
+            <span class="term-prompt">karthik@kernel:~$</span>
+            <input type="text" id="term-cli-input" class="term-input" autocomplete="off" spellcheck="false" placeholder="Type command (mesa, drm, mimic, commits, game, help)...">
         </div>
     </div>
 

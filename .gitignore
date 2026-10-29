@@ -13,3 +13,4 @@ Thumbs.db
 
 # Local scratch build dir used during development
 /.build/
+dist/

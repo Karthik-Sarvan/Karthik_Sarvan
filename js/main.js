@@ -1,7 +1,7 @@
 /**
  * ============================================================================
- * KARTHIK SARVAN // SKETCH & WORKING SHEET STUDIO
- * Client Script: Theme Toggle, Pipeline Explorer, Commit Ledger, Terminal Shell
+ * KARTHIK SARVAN // LINUX GRAPHICS & DRM KERNEL SYSTEMS PORTFOLIO
+ * Client Script: GPU Telemetry, Pipeline Explorer, Commit Heatmap, Terminal
  * ============================================================================
  */
 
@@ -9,41 +9,40 @@
   "use strict";
 
   /* --------------------------------------------------------------------------
-     1. THEME MANAGEMENT (Dark Mode & Light Mode Toggle)
+     1. BARE-METAL GPU TELEMETRY INSPECTOR
      -------------------------------------------------------------------------- */
-  function setupTheme() {
-    const themeBtn = document.getElementById("btn-theme-toggle");
-    const root = document.documentElement;
+  function setupGPUInspector() {
+    const vendorEl = document.getElementById("gpu-vendor-val");
+    const rendererEl = document.getElementById("gpu-renderer-val");
+    const maxTexEl = document.getElementById("gpu-tex-val");
+    const extsEl = document.getElementById("gpu-ext-val");
 
-    // Default to dark theme as requested
-    const savedTheme = localStorage.getItem("karthik-theme") || "dark";
-    root.setAttribute("data-theme", savedTheme);
-    updateThemeUI(savedTheme);
+    let vendor = "Intel / Mesa";
+    let renderer = "Mesa Intel UHD Graphics 620 (KBL GT2)";
+    let maxTex = 16384;
+    let exts = 36;
 
-    if (themeBtn) {
-      themeBtn.addEventListener("click", () => {
-        const current = root.getAttribute("data-theme") || "dark";
-        const next = current === "dark" ? "light" : "dark";
-        root.setAttribute("data-theme", next);
-        localStorage.setItem("karthik-theme", next);
-        updateThemeUI(next);
-      });
-    }
-
-    function updateThemeUI(theme) {
-      if (!themeBtn) return;
-      themeBtn.innerHTML = theme === "dark" 
-        ? '☀️ <span style="font-size:1.1rem;">Light</span>' 
-        : '🌙 <span style="font-size:1.1rem;">Dark</span>';
-      themeBtn.setAttribute("aria-label", `Switch to ${theme === "dark" ? "light" : "dark"} theme`);
-    }
-
-    window.addEventListener("storage", (e) => {
-      if (e.key === "karthik-theme" && e.newValue) {
-        root.setAttribute("data-theme", e.newValue);
-        updateThemeUI(e.newValue);
+    try {
+      const canvas = document.createElement("canvas");
+      const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      if (gl) {
+        const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+        if (dbg) {
+          vendor = gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) || vendor;
+          renderer = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || renderer;
+        }
+        maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE) || maxTex;
+        const supported = gl.getSupportedExtensions();
+        exts = supported ? supported.length : exts;
       }
-    });
+    } catch (e) {
+      console.warn("GPU query restricted by browser environment, using detected fallback");
+    }
+
+    if (vendorEl) vendorEl.textContent = vendor;
+    if (rendererEl) rendererEl.textContent = renderer;
+    if (maxTexEl) maxTexEl.textContent = `${maxTex}px`;
+    if (extsEl) extsEl.textContent = `${exts} extensions`;
   }
 
   /* --------------------------------------------------------------------------
@@ -51,7 +50,7 @@
      -------------------------------------------------------------------------- */
   const PIPELINE_DATA = {
     app: {
-      step: "STAGE 01",
+      step: "STAGE 01 // WAYLAND PROTOCOL",
       title: "Client Application & Wayland Compositor",
       desc: "Wayland client surfaces, frame callbacks, and display presentation. The compositor coordinates surface pacing, zero-copy dmabuf buffer passing, and explicit timeline synchronization.",
       code: `// Wayland client dmabuf allocation & presentation
@@ -60,7 +59,7 @@ struct wp_linux_drm_syncobj_manager_v1 *syncobj_mgr = ...;
 wp_linux_drm_syncobj_surface_v1_set_acquire_point(surface_sync, syncobj, point);`
     },
     api: {
-      step: "STAGE 02",
+      step: "STAGE 02 // GRAPHICS API",
       title: "Graphics API (Vulkan / OpenGL)",
       desc: "The client issues command buffers, pipeline state objects, and draw calls via Vulkan (e.g. vkCmdDrawIndexed) or OpenGL contexts.",
       code: `VkSubmitInfo submitInfo = {
@@ -71,7 +70,7 @@ wp_linux_drm_syncobj_surface_v1_set_acquire_point(surface_sync, syncobj, point);
 vkQueueSubmit(graphicsQueue, 1, &submitInfo, fence);`
     },
     mesa: {
-      step: "STAGE 03",
+      step: "STAGE 03 // USER-SPACE DRIVERS",
       title: "Mesa 3D User-Space Drivers & NIR Compiler",
       desc: "Mesa translates SPIR-V / GLSL into NIR (New Intermediate Representation). Applies dead-code elimination, algebraic lowering, and hardware scheduling across drivers (Lavapipe, Zink, RADV, ANV).",
       code: `/* Mesa NIR optimization pass (Karthik upstream work) */
@@ -82,7 +81,7 @@ NIR_PASS_V(nir, nir_opt_algebraic);
 size_t hdr_sz = lvp_get_pipeline_cache_header_size();`
     },
     drm: {
-      step: "STAGE 04",
+      step: "STAGE 04 // KERNEL SUBSYSTEM",
       title: "Linux Kernel DRM / KMS Subsystem",
       desc: "drivers/gpu/drm/: Manages GEM buffer allocations, TTM memory residency (VRAM/GTT), fence synchronization, and atomic display state commits (DRM_IOCTL_MODE_ATOMIC_COMMIT).",
       code: `/* drm_atomic_commit: staging full CRTC / plane state */
@@ -93,7 +92,7 @@ int drm_atomic_commit(struct drm_atomic_state *state) {
 }`
     },
     gpu: {
-      step: "STAGE 05",
+      step: "STAGE 05 // HARDWARE SCANOUT",
       title: "GPU Hardware Silicon & Scanout",
       desc: "The GPU command processor parses ring buffers, executes compute/fragment pipelines on physical execution units, and the display controller scans out frames directly to the display connector.",
       code: `/* Hardware scanout: CRTC -> Encoder -> Connector -> Panel */
@@ -103,7 +102,7 @@ dma_fence signaled -> vblank interrupt handled`
   };
 
   function setupPipelineExplorer() {
-    const stageBtns = document.querySelectorAll(".process-step-tab, .stage-tab");
+    const stageBtns = document.querySelectorAll(".stage-tab");
     const detailBox = document.getElementById("pipeline-display");
     if (!stageBtns.length || !detailBox) return;
 
@@ -121,12 +120,12 @@ dma_fence signaled -> vblank interrupt handled`
         btn.setAttribute("aria-selected", "true");
 
         detailBox.innerHTML = `
-          <div class="ledger-info">
-            <span class="ledger-badge">${data.step} // BLUEPRINT</span>
-            <h3 class="ledger-title">${data.title}</h3>
-            <p class="ledger-desc">${data.desc}</p>
+          <div class="pipeline-info">
+            <span class="pipeline-stage-badge">${data.step}</span>
+            <h3 class="pipeline-stage-heading">${data.title}</h3>
+            <p class="pipeline-stage-text">${data.desc}</p>
           </div>
-          <div class="ledger-code-scrap">
+          <div class="code-box">
             <pre><code>${data.code}</code></pre>
           </div>
         `;
@@ -220,7 +219,7 @@ dma_fence signaled -> vblank interrupt handled`
         const cmd = input.value.trim();
         if (!cmd) return;
         input.value = "";
-        append(`<span class="term-prompt">karthik@kernel:~$</span> ${cmd}`);
+        append(`<span class="term-prompt">karthik@drm-subsystem:~$</span> ${cmd}`);
 
         const c = cmd.toLowerCase();
         switch (c) {
@@ -232,6 +231,7 @@ Available commands:
   <span class="term-cyan">mimic</span>      - Mimic open-source hardware emulation framework
   <span class="term-cyan">commits</span>    - GitHub & GitLab upstream activity statistics
   <span class="term-cyan">glxinfo</span>    - Local GPU & OpenGL profile
+  <span class="term-cyan">vulkaninfo</span> - Vulkan physical devices & drivers
   <span class="term-cyan">game</span>       - Launch 3D roadster world (game.karthik.qzz.io)
   <span class="term-cyan">contact</span>    - Upstream email and forge links
   <span class="term-cyan">clear</span>      - Clear terminal console
@@ -284,6 +284,14 @@ OpenGL core profile version string: 4.6 (Core Profile) Mesa 25.x
 OpenGL core profile shading language version string: 4.60
             `);
             break;
+          case "vulkaninfo":
+            append(`
+Vulkan Instance Version: 1.3.280
+Physical Devices:
+  [0] Intel(R) UHD Graphics 620 (KBL GT2) (ANV driver)
+  [1] Lavapipe software rasterizer (Vulkan 1.3, MR !45614 compliant)
+            `);
+            break;
           case "contact":
             append(`
 • Email: <a href="mailto:karthiks1mail@gmail.com" class="term-cyan">karthiks1mail@gmail.com</a>
@@ -304,7 +312,7 @@ OpenGL core profile shading language version string: 4.60
 
   // Initialize on DOM load
   document.addEventListener("DOMContentLoaded", () => {
-    setupTheme();
+    setupGPUInspector();
     setupPipelineExplorer();
     setupCommitHeatmap();
     setupTerminalShell();

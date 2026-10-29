@@ -1,7 +1,7 @@
 /**
  * ============================================================================
  * KARTHIK SARVAN // SKETCH & WORKING SHEET STUDIO
- * Client Script: Pipeline Explorer, Commit Ledger, Terminal Shell
+ * Client Script: Theme Toggle, Pipeline Explorer, Commit Ledger, Terminal Shell
  * ============================================================================
  */
 
@@ -9,7 +9,45 @@
   "use strict";
 
   /* --------------------------------------------------------------------------
-     1. INTERACTIVE LINUX GRAPHICS PIPELINE EXPLORER
+     1. THEME MANAGEMENT (Dark Mode & Light Mode Toggle)
+     -------------------------------------------------------------------------- */
+  function setupTheme() {
+    const themeBtn = document.getElementById("btn-theme-toggle");
+    const root = document.documentElement;
+
+    // Default to dark theme as requested
+    const savedTheme = localStorage.getItem("karthik-theme") || "dark";
+    root.setAttribute("data-theme", savedTheme);
+    updateThemeUI(savedTheme);
+
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const current = root.getAttribute("data-theme") || "dark";
+        const next = current === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("karthik-theme", next);
+        updateThemeUI(next);
+      });
+    }
+
+    function updateThemeUI(theme) {
+      if (!themeBtn) return;
+      themeBtn.innerHTML = theme === "dark" 
+        ? '☀️ <span style="font-size:1.1rem;">Light</span>' 
+        : '🌙 <span style="font-size:1.1rem;">Dark</span>';
+      themeBtn.setAttribute("aria-label", `Switch to ${theme === "dark" ? "light" : "dark"} theme`);
+    }
+
+    window.addEventListener("storage", (e) => {
+      if (e.key === "karthik-theme" && e.newValue) {
+        root.setAttribute("data-theme", e.newValue);
+        updateThemeUI(e.newValue);
+      }
+    });
+  }
+
+  /* --------------------------------------------------------------------------
+     2. INTERACTIVE LINUX GRAPHICS PIPELINE EXPLORER
      -------------------------------------------------------------------------- */
   const PIPELINE_DATA = {
     app: {
@@ -97,7 +135,7 @@ dma_fence signaled -> vblank interrupt handled`
   }
 
   /* --------------------------------------------------------------------------
-     2. GITHUB 2026 COMMIT HEATMAP GENERATOR
+     3. GITHUB 2026 COMMIT HEATMAP GENERATOR
      -------------------------------------------------------------------------- */
   async function setupCommitHeatmap() {
     const grid = document.getElementById("heatmap-grid");
@@ -136,7 +174,7 @@ dma_fence signaled -> vblank interrupt handled`
   }
 
   /* --------------------------------------------------------------------------
-     3. INTERACTIVE LINUX TERMINAL DRAWER
+     4. INTERACTIVE LINUX TERMINAL DRAWER
      -------------------------------------------------------------------------- */
   function setupTerminalShell() {
     const drawer = document.getElementById("terminal-drawer");
@@ -266,6 +304,7 @@ OpenGL core profile shading language version string: 4.60
 
   // Initialize on DOM load
   document.addEventListener("DOMContentLoaded", () => {
+    setupTheme();
     setupPipelineExplorer();
     setupCommitHeatmap();
     setupTerminalShell();

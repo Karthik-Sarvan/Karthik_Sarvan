@@ -1,7 +1,7 @@
 /**
  * ============================================================================
- * KARTHIK SARVAN // LINUX GRAPHICS & DRM KERNEL SYSTEMS PORTFOLIO
- * Client Script: GPU Telemetry, Pipeline Explorer, Commit Heatmap, Terminal
+ * KARTHIK SARVAN // PERSONAL PORTFOLIO
+ * Client Script: Commit Heatmap, Terminal Shell, Micro-Interactions
  * ============================================================================
  */
 
@@ -9,132 +9,7 @@
   "use strict";
 
   /* --------------------------------------------------------------------------
-     1. BARE-METAL GPU TELEMETRY INSPECTOR
-     -------------------------------------------------------------------------- */
-  function setupGPUInspector() {
-    const vendorEl = document.getElementById("gpu-vendor-val");
-    const rendererEl = document.getElementById("gpu-renderer-val");
-    const maxTexEl = document.getElementById("gpu-tex-val");
-    const extsEl = document.getElementById("gpu-ext-val");
-
-    let vendor = "Intel / Mesa";
-    let renderer = "Mesa Intel UHD Graphics 620 (KBL GT2)";
-    let maxTex = 16384;
-    let exts = 36;
-
-    try {
-      const canvas = document.createElement("canvas");
-      const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
-      if (gl) {
-        const dbg = gl.getExtension("WEBGL_debug_renderer_info");
-        if (dbg) {
-          vendor = gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) || vendor;
-          renderer = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || renderer;
-        }
-        maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE) || maxTex;
-        const supported = gl.getSupportedExtensions();
-        exts = supported ? supported.length : exts;
-      }
-    } catch (e) {
-      console.warn("GPU query restricted by browser environment, using detected fallback");
-    }
-
-    if (vendorEl) vendorEl.textContent = vendor;
-    if (rendererEl) rendererEl.textContent = renderer;
-    if (maxTexEl) maxTexEl.textContent = `${maxTex}px`;
-    if (extsEl) extsEl.textContent = `${exts} extensions`;
-  }
-
-  /* --------------------------------------------------------------------------
-     2. INTERACTIVE LINUX GRAPHICS PIPELINE EXPLORER
-     -------------------------------------------------------------------------- */
-  const PIPELINE_DATA = {
-    app: {
-      step: "STAGE 01 // WAYLAND PROTOCOL",
-      title: "Client Application & Wayland Compositor",
-      desc: "Wayland client surfaces, frame callbacks, and display presentation. The compositor coordinates surface pacing, zero-copy dmabuf buffer passing, and explicit timeline synchronization.",
-      code: `// Wayland client dmabuf allocation & presentation
-struct zwp_linux_dmabuf_v1 *dmabuf = ...;
-struct wp_linux_drm_syncobj_manager_v1 *syncobj_mgr = ...;
-wp_linux_drm_syncobj_surface_v1_set_acquire_point(surface_sync, syncobj, point);`
-    },
-    api: {
-      step: "STAGE 02 // GRAPHICS API",
-      title: "Graphics API (Vulkan / OpenGL)",
-      desc: "The client issues command buffers, pipeline state objects, and draw calls via Vulkan (e.g. vkCmdDrawIndexed) or OpenGL contexts.",
-      code: `VkSubmitInfo submitInfo = {
-    .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
-    .commandBufferCount = 1,
-    .pCommandBuffers = &cmdBuffer
-};
-vkQueueSubmit(graphicsQueue, 1, &submitInfo, fence);`
-    },
-    mesa: {
-      step: "STAGE 03 // USER-SPACE DRIVERS",
-      title: "Mesa 3D User-Space Drivers & NIR Compiler",
-      desc: "Mesa translates SPIR-V / GLSL into NIR (New Intermediate Representation). Applies dead-code elimination, algebraic lowering, and hardware scheduling across drivers (Lavapipe, Zink, RADV, ANV).",
-      code: `/* Mesa NIR optimization pass (Karthik upstream work) */
-nir_shader *nir = spirv_to_nir(...);
-NIR_PASS_V(nir, nir_opt_dce);
-NIR_PASS_V(nir, nir_opt_algebraic);
-/* Lavapipe MR !45614: pipeline cache header calculation */
-size_t hdr_sz = lvp_get_pipeline_cache_header_size();`
-    },
-    drm: {
-      step: "STAGE 04 // KERNEL SUBSYSTEM",
-      title: "Linux Kernel DRM / KMS Subsystem",
-      desc: "drivers/gpu/drm/: Manages GEM buffer allocations, TTM memory residency (VRAM/GTT), fence synchronization, and atomic display state commits (DRM_IOCTL_MODE_ATOMIC_COMMIT).",
-      code: `/* drm_atomic_commit: staging full CRTC / plane state */
-int drm_atomic_commit(struct drm_atomic_state *state) {
-    int ret = drm_atomic_check_only(state);
-    if (ret) return ret;
-    return config->funcs->atomic_commit(state->dev, state, false);
-}`
-    },
-    gpu: {
-      step: "STAGE 05 // HARDWARE SCANOUT",
-      title: "GPU Hardware Silicon & Scanout",
-      desc: "The GPU command processor parses ring buffers, executes compute/fragment pipelines on physical execution units, and the display controller scans out frames directly to the display connector.",
-      code: `/* Hardware scanout: CRTC -> Encoder -> Connector -> Panel */
-CRTC[0] -> HDMI-A-1 / DP-1: 3840x2160@144Hz (RGB 10bpc)
-dma_fence signaled -> vblank interrupt handled`
-    }
-  };
-
-  function setupPipelineExplorer() {
-    const stageBtns = document.querySelectorAll(".stage-tab");
-    const detailBox = document.getElementById("pipeline-display");
-    if (!stageBtns.length || !detailBox) return;
-
-    stageBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const stageKey = btn.getAttribute("data-stage");
-        const data = PIPELINE_DATA[stageKey];
-        if (!data) return;
-
-        stageBtns.forEach((b) => {
-          b.classList.remove("active");
-          b.setAttribute("aria-selected", "false");
-        });
-        btn.classList.add("active");
-        btn.setAttribute("aria-selected", "true");
-
-        detailBox.innerHTML = `
-          <div class="pipeline-info">
-            <span class="pipeline-stage-badge">${data.step}</span>
-            <h3 class="pipeline-stage-heading">${data.title}</h3>
-            <p class="pipeline-stage-text">${data.desc}</p>
-          </div>
-          <div class="code-box">
-            <pre><code>${data.code}</code></pre>
-          </div>
-        `;
-      });
-    });
-  }
-
-  /* --------------------------------------------------------------------------
-     3. GITHUB 2026 COMMIT HEATMAP GENERATOR
+     1. GITHUB 2026 COMMIT HEATMAP GENERATOR
      -------------------------------------------------------------------------- */
   async function setupCommitHeatmap() {
     const grid = document.getElementById("heatmap-grid");
@@ -173,7 +48,7 @@ dma_fence signaled -> vblank interrupt handled`
   }
 
   /* --------------------------------------------------------------------------
-     4. INTERACTIVE LINUX TERMINAL DRAWER
+     2. INTERACTIVE TERMINAL DRAWER
      -------------------------------------------------------------------------- */
   function setupTerminalShell() {
     const drawer = document.getElementById("terminal-drawer");
@@ -219,86 +94,78 @@ dma_fence signaled -> vblank interrupt handled`
         const cmd = input.value.trim();
         if (!cmd) return;
         input.value = "";
-        append(`<span class="term-prompt">karthik@drm-subsystem:~$</span> ${cmd}`);
+        append(`<span class="term-prompt">karthik@workbench:~$</span> ${cmd}`);
 
         const c = cmd.toLowerCase();
         switch (c) {
           case "help":
             append(`
 Available commands:
-  <span class="term-cyan">mesa</span>       - Upstream Mesa 3D contributions & MR status
-  <span class="term-cyan">drm</span>        - Linux DRM/KMS subsystem architecture
-  <span class="term-cyan">mimic</span>      - Mimic open-source hardware emulation framework
-  <span class="term-cyan">commits</span>    - GitHub & GitLab upstream activity statistics
-  <span class="term-cyan">glxinfo</span>    - Local GPU & OpenGL profile
-  <span class="term-cyan">vulkaninfo</span> - Vulkan physical devices & drivers
-  <span class="term-cyan">game</span>       - Launch 3D roadster world (game.karthik.qzz.io)
-  <span class="term-cyan">contact</span>    - Upstream email and forge links
-  <span class="term-cyan">clear</span>      - Clear terminal console
+  <span class="term-cyan">about</span>       - Bio and technical focus
+  <span class="term-cyan">experience</span>  - Work history (Aegion, Reaidy, Spotmies)
+  <span class="term-cyan">projects</span>    - Featured builds (Pratibim, Mimic, PID Balancer)
+  <span class="term-cyan">mimic</span>       - Mimic hardware emulation framework
+  <span class="term-cyan">pratibim</span>    - AI-driven circuit schematic engine in Rust
+  <span class="term-cyan">skills</span>      - Embedded, firmware & software tools
+  <span class="term-cyan">contact</span>     - Email, phone, GitHub & LinkedIn
+  <span class="term-cyan">game</span>        - Launch 3D roadster world (game.karthik.qzz.io)
+  <span class="term-cyan">clear</span>       - Clear terminal console
             `);
             break;
-          case "mesa":
+          case "about":
             append(`
-<span class="term-cyan">[MESA 3D CONTRIBUTIONS]</span>
-FreeDesktop: <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" class="term-cyan">gitlab.freedesktop.org/karthik-sarvan</a>
-• <strong>MR !45614:</strong> lavapipe: report full pipeline cache header size
-• <strong>Zink:</strong> add submits-per-frame HUD query (OpenGL over Vulkan)
-• <strong>NIR:</strong> SSA optimizations, SPIR-V dialect lowering passes
+<strong>Karthik Sarvan</strong> — Embedded Engineer & Systems Developer
+Electronics & Communication Engineering student building from the ground up:
+bare-metal C, Rust, STM32 microcontrollers, PID control loops, and modern web systems.
             `);
             break;
-          case "drm":
-          case "kernel":
+          case "experience":
             append(`
-<span class="term-cyan">[LINUX KERNEL DRM / KMS]</span>
-• Subsystem: drivers/gpu/drm/
-• Memory Managers: GEM Buffer Objects, TTM Memory Placement
-• Display Pipeline: Atomic Modesetting (CRTC, Planes, Encoders, Connectors)
-• Synchronization: wp_linux_drm_syncobj_v1, asynchronous dma_fence timelines
+• <strong>Aegion Dynamic Solutions</strong> (Dec 2025 - Present): Embedded Intern, STM32 firmware in C & Rust
+• <strong>Reaidy.io</strong> (Sept 2024 - Apr 2025): MERN Stack Developer, AI interview platform
+• <strong>Spotmies LLP</strong> (June 2023 - Dec 2023): React Intern, web applications
+            `);
+            break;
+          case "projects":
+            append(`
+1. <strong>Pratibim:</strong> AI-driven EDA schematic tool built with a high-performance Rust core (pratibim.tech)
+2. <strong>Mimic:</strong> Hardware emulation test framework proxying physical I2C/SPI sensors on STM32 (mimic.aegiondynamic.com)
+3. <strong>Relay Test System:</strong> Automated field diagnostic unit for contact resistance & pickup voltage
+4. <strong>PID Balancer:</strong> Closed-loop tilt stabilization utilizing fast-response spatial sensor feedback
             `);
             break;
           case "mimic":
             append(`
 <span class="term-amber">[MIMIC HARDWARE EMULATION]</span>
 Maintainer: <a href="https://mimic.aegiondynamic.com" target="_blank" class="term-cyan">mimic.aegiondynamic.com</a>
-Hardware-in-the-loop (HIL) automated test harness proxying physical I2C/SPI sensors on bare-metal STM32.
+Hardware-in-the-loop (HIL) test framework that acts as a proxy for physical sensors on bare-metal STM32.
             `);
             break;
-          case "commits":
+          case "pratibim":
             append(`
-<span class="term-cyan">[UPSTREAM VELOCITY]</span>
-• 2026 Contributions: 2,742+
-• Lifetime Contributions: 3,660+
-• GitHub: <a href="https://github.com/karthik-sarvan" target="_blank" class="term-cyan">github.com/karthik-sarvan</a>
-• FreeDesktop: <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" class="term-cyan">gitlab.freedesktop.org/karthik-sarvan</a>
+<span class="term-cyan">[PRATIBIM EDA TOOL]</span>
+URL: <a href="https://pratibim.tech" target="_blank" class="term-cyan">pratibim.tech</a>
+AI co-pilot for hardware engineers designing circuit schematics, with memory-safe core engine in Rust.
             `);
             break;
-          case "game":
-            append(`Opening 3D roadster world: <a href="https://game.karthik.qzz.io" target="_blank" class="term-cyan">https://game.karthik.qzz.io</a>`);
-            window.open("https://game.karthik.qzz.io", "_blank");
-            break;
-          case "glxinfo":
+          case "skills":
             append(`
-OpenGL vendor string: Intel / Mesa
-OpenGL renderer string: Mesa Intel(R) UHD Graphics 620
-OpenGL core profile version string: 4.6 (Core Profile) Mesa 25.x
-OpenGL core profile shading language version string: 4.60
-            `);
-            break;
-          case "vulkaninfo":
-            append(`
-Vulkan Instance Version: 1.3.280
-Physical Devices:
-  [0] Intel(R) UHD Graphics 620 (KBL GT2) (ANV driver)
-  [1] Lavapipe software rasterizer (Vulkan 1.3, MR !45614 compliant)
+• Languages: Rust, C/C++, JavaScript, Python
+• Hardware & Systems: STM32, Embedded Firmware, PCB Design, Linux Kernel, PID Control, Git
+• Web: MERN Stack, React, Node.js
             `);
             break;
           case "contact":
             append(`
 • Email: <a href="mailto:karthiks1mail@gmail.com" class="term-cyan">karthiks1mail@gmail.com</a>
-• FreeDesktop: <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" class="term-cyan">gitlab.freedesktop.org/karthik-sarvan</a>
-• GitHub: <a href="https://github.com/karthik-sarvan" target="_blank" class="term-cyan">github.com/karthik-sarvan</a>
-• LinkedIn: <a href="https://www.linkedin.com/in/karthik-sarvan/" target="_blank" class="term-cyan">linkedin.com/in/karthik-sarvan</a>
+• Phone: +91 6281858488
+• GitHub: <a href="https://github.com/Karthik-Sarvan" target="_blank" class="term-cyan">github.com/Karthik-Sarvan</a>
+• LinkedIn: <a href="https://linkedin.com/in/Karthik-Sarvan" target="_blank" class="term-cyan">linkedin.com/in/Karthik-Sarvan</a>
             `);
+            break;
+          case "game":
+            append(`Launching 3D roadster world: <a href="https://game.karthik.qzz.io" target="_blank" class="term-cyan">https://game.karthik.qzz.io</a>`);
+            window.open("https://game.karthik.qzz.io", "_blank");
             break;
           case "clear":
             output.innerHTML = "";
@@ -312,8 +179,6 @@ Physical Devices:
 
   // Initialize on DOM load
   document.addEventListener("DOMContentLoaded", () => {
-    setupGPUInspector();
-    setupPipelineExplorer();
     setupCommitHeatmap();
     setupTerminalShell();
   });

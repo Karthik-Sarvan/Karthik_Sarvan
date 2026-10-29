@@ -1,7 +1,7 @@
 /**
  * ============================================================================
- * KARTHIK SARVAN // LINUX GRAPHICS & DRM KERNEL SYSTEMS PORTFOLIO
- * Client Script: Pipeline Explorer, GPU Telemetry, Heatmap, Terminal Shell
+ * KARTHIK SARVAN // MINIMALIST DOODLE & SYSTEMS STUDIO
+ * Client Script: Theme Toggle, Pipeline Explorer, Heatmap, Terminal Shell
  * ============================================================================
  */
 
@@ -9,33 +9,70 @@
   "use strict";
 
   /* --------------------------------------------------------------------------
-     1. INTERACTIVE LINUX GRAPHICS PIPELINE EXPLORER
+     1. THEME TOGGLE (Light / Dark)
+     -------------------------------------------------------------------------- */
+  function setupTheme() {
+    const themeBtn = document.getElementById("btn-theme-toggle");
+    const root = document.documentElement;
+
+    const savedTheme = localStorage.getItem("karthik-theme");
+    if (savedTheme) {
+      root.setAttribute("data-theme", savedTheme);
+      updateThemeIcon(savedTheme);
+    } else {
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      // Default to light if no preference to honor the minimalist white doodle aesthetic
+      updateThemeIcon(prefersDark ? "dark" : "light");
+    }
+
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const current = root.getAttribute("data-theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        const next = current === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("karthik-theme", next);
+        updateThemeIcon(next);
+      });
+    }
+
+    function updateThemeIcon(theme) {
+      if (!themeBtn) return;
+      themeBtn.innerHTML = theme === "dark"
+        ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>'
+        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+      themeBtn.setAttribute("aria-label", `Switch to ${theme === "dark" ? "light" : "dark"} mode`);
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     2. INTERACTIVE LINUX GRAPHICS PIPELINE EXPLORER
      -------------------------------------------------------------------------- */
   const PIPELINE_DATA = {
     app: {
       step: "STAGE 01",
       title: "Client Application & Wayland Compositor",
-      desc: "Wayland client surfaces, frame callbacks, and display presentation. The compositor requests swapchains and coordinates surface pacing using dmabuf passing.",
-      code: `// Wayland dmabuf frame pacing protocol
+      desc: "Wayland client surfaces, frame callbacks, and display presentation. The compositor coordinates surface pacing, zero-copy dmabuf buffer passing, and explicit timeline synchronization.",
+      code: `// Wayland client dmabuf allocation & presentation
 struct zwp_linux_dmabuf_v1 *dmabuf = ...;
-struct wp_linux_drm_syncobj_manager_v1 *syncobj_mgr = ...;`
+struct wp_linux_drm_syncobj_manager_v1 *syncobj_mgr = ...;
+wp_linux_drm_syncobj_surface_v1_set_acquire_point(surface_sync, syncobj, point);`
     },
     api: {
       step: "STAGE 02",
       title: "Graphics API (Vulkan / OpenGL)",
-      desc: "The application issues command buffers, pipeline state objects, and draw calls via Vulkan (e.g., vkCmdDrawIndexed) or OpenGL contexts.",
+      desc: "The client issues command buffers, pipeline state objects, and draw calls via Vulkan (e.g. vkCmdDrawIndexed) or OpenGL contexts.",
       code: `VkSubmitInfo submitInfo = {
     .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
     .commandBufferCount = 1,
     .pCommandBuffers = &cmdBuffer
 };
-vkQueueSubmit(queue, 1, &submitInfo, fence);`
+vkQueueSubmit(graphicsQueue, 1, &submitInfo, fence);`
     },
     mesa: {
       step: "STAGE 03",
       title: "Mesa 3D User-Space Drivers & NIR Compiler",
-      desc: "Mesa translates SPIR-V / GLSL into NIR (New Intermediate Representation). Applies dead-code elimination, algebraic lowering, SSA optimizations, and hardware scheduling (RADV, ANV, Zink, Lavapipe).",
-      code: `/* Mesa NIR optimization pass (upstream work) */
+      desc: "Mesa translates SPIR-V / GLSL into NIR (New Intermediate Representation). Applies dead-code elimination, algebraic lowering, and hardware scheduling across drivers (Lavapipe, Zink, RADV, ANV).",
+      code: `/* Mesa NIR optimization pass (Karthik upstream work) */
 nir_shader *nir = spirv_to_nir(...);
 NIR_PASS_V(nir, nir_opt_dce);
 NIR_PASS_V(nir, nir_opt_algebraic);
@@ -56,16 +93,16 @@ int drm_atomic_commit(struct drm_atomic_state *state) {
     gpu: {
       step: "STAGE 05",
       title: "GPU Hardware Silicon & Scanout",
-      desc: "GPU command processor parses ring buffers, executes shaders across compute units, and the display controller scans out frames directly to the display connector.",
+      desc: "The GPU command processor parses ring buffers, executes compute/fragment pipelines on physical execution units, and the display controller scans out frames directly to the display connector.",
       code: `/* Hardware scanout: CRTC -> Encoder -> Connector -> Panel */
 CRTC[0] -> HDMI-A-1 / DP-1: 3840x2160@144Hz (RGB 10bpc)
-dma_fence signaled -> page flip complete`
+dma_fence signaled -> vblank interrupt handled`
     }
   };
 
   function setupPipelineExplorer() {
-    const stageBtns = document.querySelectorAll(".stage-btn");
-    const detailBox = document.getElementById("pipeline-detail");
+    const stageBtns = document.querySelectorAll(".stage-tab");
+    const detailBox = document.getElementById("pipeline-display");
     if (!stageBtns.length || !detailBox) return;
 
     stageBtns.forEach((btn) => {
@@ -78,17 +115,21 @@ dma_fence signaled -> page flip complete`
         btn.classList.add("active");
 
         detailBox.innerHTML = `
-          <div class="stage-step">${data.step}</div>
-          <div class="detail-title">${data.title}</div>
-          <p class="detail-desc">${data.desc}</p>
-          <pre class="code-box"><code>${data.code}</code></pre>
+          <div class="pipeline-info">
+            <span class="info-badge">${data.step}</span>
+            <h3 class="info-title">${data.title}</h3>
+            <p class="info-desc">${data.desc}</p>
+          </div>
+          <div class="code-wrapper">
+            <pre><code>${data.code}</code></pre>
+          </div>
         `;
       });
     });
   }
 
   /* --------------------------------------------------------------------------
-     2. GITHUB 2026 COMMIT HEATMAP GENERATOR
+     3. GITHUB 2026 COMMIT HEATMAP GENERATOR
      -------------------------------------------------------------------------- */
   async function setupCommitHeatmap() {
     const grid = document.getElementById("heatmap-grid");
@@ -100,13 +141,12 @@ dma_fence signaled -> page flip complete`
       const res = await fetch("assets/github-contributions.json");
       if (res.ok) data = await res.json();
     } catch (e) {
-      console.warn("Using offline commit data");
+      console.warn("Using offline fallback for commit data");
     }
 
     const contributions = (data && data.contributions) ? data.contributions : [];
     grid.innerHTML = "";
 
-    // 52 weeks x 7 days
     contributions.forEach((item) => {
       const cell = document.createElement("div");
       cell.className = `day-cell day-lvl-${Math.min(item.level || 0, 4)}`;
@@ -128,47 +168,12 @@ dma_fence signaled -> page flip complete`
   }
 
   /* --------------------------------------------------------------------------
-     3. BARE-METAL GPU TELEMETRY INSPECTOR
-     -------------------------------------------------------------------------- */
-  function setupGPUInspector() {
-    const vendorEl = document.getElementById("gpu-vendor-val");
-    const rendererEl = document.getElementById("gpu-renderer-val");
-    const maxTexEl = document.getElementById("gpu-tex-val");
-    const extsEl = document.getElementById("gpu-ext-val");
-
-    let vendor = "Generic Hardware";
-    let renderer = "Software Rasterizer";
-    let maxTex = 8192;
-    let exts = 0;
-
-    try {
-      const canvas = document.createElement("canvas");
-      const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
-      if (gl) {
-        const dbg = gl.getExtension("WEBGL_debug_renderer_info");
-        if (dbg) {
-          vendor = gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) || vendor;
-          renderer = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || renderer;
-        }
-        maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE) || maxTex;
-        exts = gl.getSupportedExtensions() ? gl.getSupportedExtensions().length : 0;
-      }
-    } catch (e) {
-      console.warn("GPU query restricted by browser");
-    }
-
-    if (vendorEl) vendorEl.textContent = vendor;
-    if (rendererEl) rendererEl.textContent = renderer;
-    if (maxTexEl) maxTexEl.textContent = `${maxTex}px`;
-    if (extsEl) extsEl.textContent = `${exts} extensions`;
-  }
-
-  /* --------------------------------------------------------------------------
      4. INTERACTIVE LINUX TERMINAL DRAWER
      -------------------------------------------------------------------------- */
   function setupTerminalShell() {
     const drawer = document.getElementById("terminal-drawer");
-    const btnOpen = document.getElementById("btn-terminal-open");
+    const btnOpenHeader = document.getElementById("btn-terminal-open");
+    const btnOpenFloat = document.getElementById("btn-terminal-float");
     const btnClose = document.getElementById("btn-terminal-close");
     const input = document.getElementById("term-cli-input");
     const output = document.getElementById("term-cli-output");
@@ -182,7 +187,8 @@ dma_fence signaled -> page flip complete`
       }
     };
 
-    if (btnOpen) btnOpen.addEventListener("click", () => toggle(true));
+    if (btnOpenHeader) btnOpenHeader.addEventListener("click", () => toggle(true));
+    if (btnOpenFloat) btnOpenFloat.addEventListener("click", () => toggle(true));
     if (btnClose) btnClose.addEventListener("click", () => toggle(false));
 
     window.addEventListener("keydown", (e) => {
@@ -208,7 +214,7 @@ dma_fence signaled -> page flip complete`
         const cmd = input.value.trim();
         if (!cmd) return;
         input.value = "";
-        append(`<span class="term-prompt">karthik@drm-subsystem:~$</span> ${cmd}`);
+        append(`<span class="term-prompt">karthik@kernel:~$</span> ${cmd}`);
 
         const c = cmd.toLowerCase();
         switch (c) {
@@ -220,10 +226,7 @@ Available commands:
   <span class="term-cyan">mimic</span>      - Mimic open-source hardware emulation framework
   <span class="term-cyan">commits</span>    - GitHub & GitLab upstream activity statistics
   <span class="term-cyan">glxinfo</span>    - Local GPU & OpenGL profile
-  <span class="term-cyan">vulkaninfo</span> - Vulkan physical device properties
-  <span class="term-cyan">dmesg</span>      - Kernel graphics initialization ring buffer
-  <span class="term-cyan">game</span>       - Launch experimental 3D roadster world (game.karthik.qzz.io)
-  <span class="term-cyan">resume</span>     - Summary engineering background
+  <span class="term-cyan">game</span>       - Launch 3D roadster world (game.karthik.qzz.io)
   <span class="term-cyan">contact</span>    - Upstream email and forge links
   <span class="term-cyan">clear</span>      - Clear terminal console
             `);
@@ -231,7 +234,7 @@ Available commands:
           case "mesa":
             append(`
 <span class="term-cyan">[MESA 3D CONTRIBUTIONS]</span>
-Upstream FreeDesktop: <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" class="term-cyan">gitlab.freedesktop.org/karthik-sarvan</a>
+FreeDesktop: <a href="https://gitlab.freedesktop.org/karthik-sarvan" target="_blank" class="term-cyan">gitlab.freedesktop.org/karthik-sarvan</a>
 • <strong>MR !45614:</strong> lavapipe: report full pipeline cache header size
 • <strong>Zink:</strong> add submits-per-frame HUD query (OpenGL over Vulkan)
 • <strong>NIR:</strong> SSA optimizations, SPIR-V dialect lowering passes
@@ -264,7 +267,7 @@ Hardware-in-the-loop (HIL) automated test harness proxying physical I2C/SPI sens
             `);
             break;
           case "game":
-            append(`Opening experimental 3D roadster world: <a href="https://game.karthik.qzz.io" target="_blank" class="term-cyan">https://game.karthik.qzz.io</a>`);
+            append(`Opening 3D roadster world: <a href="https://game.karthik.qzz.io" target="_blank" class="term-cyan">https://game.karthik.qzz.io</a>`);
             window.open("https://game.karthik.qzz.io", "_blank");
             break;
           case "glxinfo":
@@ -273,26 +276,6 @@ OpenGL vendor string: Intel / Mesa
 OpenGL renderer string: Mesa Intel(R) UHD Graphics 620
 OpenGL core profile version string: 4.6 (Core Profile) Mesa 25.x
 OpenGL core profile shading language version string: 4.60
-            `);
-            break;
-          case "vulkaninfo":
-            append(`
-Vulkan Instance Version: 1.3.280
-Physical Devices: Intel(R) UHD Graphics / Lavapipe / RADV
-            `);
-            break;
-          case "dmesg":
-            append(`
-<span class="term-dim">[    0.841022]</span> [drm] Initialized amdgpu / i915 on minor 0
-<span class="term-dim">[    0.843051]</span> [drm] Memory manager initialized: VRAM / GTT
-<span class="term-dim">[    0.844199]</span> [drm] Atomic KMS display engine initialized
-            `);
-            break;
-          case "resume":
-            append(`
-<strong>Karthik Sarvan</strong> — Linux Graphics & Kernel Systems Engineer
-Email: <a href="mailto:karthiks1mail@gmail.com" class="term-cyan">karthiks1mail@gmail.com</a>
-Location: Visakhapatnam, Andhra Pradesh, India
             `);
             break;
           case "contact":
@@ -313,11 +296,11 @@ Location: Visakhapatnam, Andhra Pradesh, India
     });
   }
 
-  // Run on DOM Ready
+  // Initialize on DOM load
   document.addEventListener("DOMContentLoaded", () => {
+    setupTheme();
     setupPipelineExplorer();
     setupCommitHeatmap();
-    setupGPUInspector();
     setupTerminalShell();
   });
 })();

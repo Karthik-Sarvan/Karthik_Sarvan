@@ -14,3 +14,6 @@ Thumbs.db
 # Local scratch build dir used during development
 /.build/
 dist/
+
+*.sketch-backup
+github-profile-3d-contrib/

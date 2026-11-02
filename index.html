@@ -716,24 +716,27 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
-        padding: 72px 0 64px 0;
+        padding: 60px 20px 0 20px;
         position: relative;
+        gap: 12px;
       }
       .hero-title {
-        font-size: clamp(34px, 9vw, 46px);
+        font-size: clamp(32px, 8.5vw, 42px);
         text-align: center;
         width: 100%;
         letter-spacing: -0.02em;
         margin: 0;
       }
       .hero-role-title {
-        font-size: 14px;
+        font-size: 13px;
         color: var(--muted);
         font-weight: 300;
         text-align: center;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-family: 'JetBrains Mono', monospace;
         max-width: 100%;
         margin: 0;
       }
@@ -1711,7 +1714,7 @@
         });
 
         particleMesh = new THREE.Points(geometry, particleMaterial);
-        particleMesh.position.y = -0.16; // Rest shoulders naturally along bezel
+        particleMesh.position.y = -0.58; // Ground shoulders along bottom bezel
         pointsGroup.add(particleMesh);
 
         handleResize();
@@ -1738,7 +1741,7 @@
       const isMobile = width < 768 || aspect < 1.0;
       camera.position.z = Math.min(5.2, Math.max(3.8, 2.3 / Math.max(aspect, 0.42)));
       if (particleMesh) {
-        particleMesh.scale.setScalar(isMobile ? 0.92 : 1.0);
+        particleMesh.scale.setScalar(isMobile ? 1.15 : 1.0);
       }
     }
     window.addEventListener('resize', handleResize);
@@ -1868,8 +1871,8 @@
         }
 
         if (particleMesh) {
-          particleMesh.position.y = isMobile ? (-0.22 - ease * 0.12) : -0.16;
-          particleMesh.scale.setScalar(isMobile ? 0.92 : 1.0);
+          particleMesh.position.y = isMobile ? (-1.02 - ease * 0.08) : (-0.58 - ease * 0.04);
+          particleMesh.scale.setScalar(isMobile ? 1.15 : 1.0);
         }
 
         const gazeTowardText = isMobile ? 0 : -ease * 0.14;
@@ -1894,8 +1897,8 @@
         }
 
         if (particleMesh) {
-          particleMesh.position.y = isMobile ? (-0.22 * (1.0 - ease)) : (-0.16 * (1.0 - ease));
-          const dnaScale = isMobile ? (0.92 + 0.28 * ease) : (1.0 + 0.30 * ease);
+          particleMesh.position.y = isMobile ? (-1.02 * (1.0 - ease)) : (-0.58 * (1.0 - ease));
+          const dnaScale = isMobile ? (1.15 + 0.05 * ease) : (1.0 + 0.30 * ease);
           particleMesh.scale.setScalar(dnaScale);
         }
 
@@ -1965,7 +1968,7 @@
 
         if (particleMesh) {
           particleMesh.position.y = -0.1;
-          particleMesh.scale.setScalar(isMobile ? 0.92 : 1.0);
+          particleMesh.scale.setScalar(isMobile ? 1.15 : 1.0);
         }
         pointsGroup.rotation.set(currentRotX * 0.3, currentRotY * 0.3, 0);
 
@@ -1981,7 +1984,7 @@
 
         if (particleMesh) {
           particleMesh.position.y = 0;
-          particleMesh.scale.setScalar(isMobile ? 0.92 : 1.0);
+          particleMesh.scale.setScalar(isMobile ? 1.15 : 1.0);
         }
         pointsGroup.rotation.set(currentRotX * 0.2, currentRotY * 0.2, 0);
 
